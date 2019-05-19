@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class PlayerController : MonoBehaviour
     private GameObject selectedChoppingBoard;
     private Transform destination;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,24 +26,68 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.A))
+      
+
+        if (Input.GetKeyDown(KeyCode.Q))
         {
+            destination = VegetableStops[2].transform;
             MoveToTarget();
         }
-    }
 
+       else if (Input.GetKeyDown(KeyCode.W))
+        {
+            destination = VegetableStops[3].transform;
+            MoveToTarget();
+        }
+
+        else if (Input.GetKeyDown(KeyCode.E))
+        {
+            destination = VegetableStops[4].transform;
+            MoveToTarget();
+        }
+
+        else if (Input.GetKeyDown(KeyCode.Z))
+        {
+            destination = VegetableStops[5].transform;
+            MoveToTarget();
+        }
+
+        else if (Input.GetKeyDown(KeyCode.X))
+        {
+            destination = VegetableStops[6].transform;
+            MoveToTarget();
+        }
+
+        else if (Input.GetKeyDown(KeyCode.C))
+        {
+            destination = VegetableStops[7].transform;
+            MoveToTarget();
+        }
+
+
+        if (destination == null || agent.transform.position.x != destination.position.x)
+        {
+            return;
+        }
+        else
+        {
+            transform.eulerAngles = new Vector3(transform.eulerAngles.x, destination.transform.eulerAngles.y, transform.eulerAngles.z);
+            SelectVegetable(0);
+            //Chopping board options appear.
+        }
+
+    }
 
     void MoveToTarget()
-    {
-        destination = VegetableStops[0].transform;
+    {       
         Vector3 target = new Vector3(destination.position.x, destination.position.y, destination.position.z);
-        agent.SetDestination(target);
+        agent.SetDestination(target);      
     }
-  
+
 
     public void SelectVegetable(int VegID)
     {
-        switch(VegID)
+        switch (VegID)
         {
             case 0:
                 PickupItem(vegetablePrefabs[0]);
@@ -78,9 +124,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void PickupItem( GameObject veg)
+    public void PickupItem(GameObject veg)
     {
-        if(!vegetablesCarryingArray[0] == null)
+        if (!vegetablesCarryingArray[0] == null)
         {
             vegetablesCarryingArray[0] = veg;
         }
@@ -93,7 +139,7 @@ public class PlayerController : MonoBehaviour
 
     public void DropVegetables()
     {
-        if(!vegetablesCarryingArray[0] == null)
+        if (!vegetablesCarryingArray[0] == null)
         {
             Instantiate(vegetablesCarryingArray[0], selectedChoppingBoard.transform);
         }
@@ -102,4 +148,29 @@ public class PlayerController : MonoBehaviour
             Instantiate(vegetablesCarryingArray[1], selectedChoppingBoard.transform);
         }
     }
+
+    public void Chop()
+    {
+        //wait some time
+        //combine vegetable if any previous chopped vegetables present
+    }
+
+    public void DropAtSidePlate()
+    {
+        //drop item at side plate
+    }
+
+    public void PickupFromSidePlate()
+    {
+        //pickup item from side plate
+    }
+
+    public void ServeCustomer()
+    {
+        //take plate and serve  customer
+    }
+
+
+
+
 }
