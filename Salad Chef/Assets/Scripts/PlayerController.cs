@@ -8,13 +8,18 @@ public class PlayerController : MonoBehaviour
 {
     Rigidbody rb;
     NavMeshAgent agent;
-    private GameObject[] vegetablesCarryingArray = new GameObject[2];
+
+    [HideInInspector]
+   public GameObject[] vegetablesCarryingArray = new GameObject[2];
+
     public GameObject[] vegetablePrefabs;
+    public GameObject saladBowlPrefab;
     public GameObject choppingBoardFirst, choppingBoardSecond;
     public GameObject[] VegetableStops;
     private GameObject selectedChoppingBoard;
+    bool canpickup = true;
     private Transform destination;
-
+    public ManagerScript manage;
 
     // Start is called before the first frame update
     void Start()
@@ -64,6 +69,17 @@ public class PlayerController : MonoBehaviour
             MoveToTarget();
         }
 
+        else if (Input.GetKeyDown(KeyCode.S))
+        {
+            destination = VegetableStops[0].transform;
+            MoveToTarget();
+        }
+
+        else if (Input.GetKeyDown(KeyCode.D))
+        {
+            destination = VegetableStops[1].transform;
+            MoveToTarget();
+        }
 
         if (destination == null || agent.transform.position.x != destination.position.x)
         {
@@ -72,7 +88,6 @@ public class PlayerController : MonoBehaviour
         else
         {
             transform.eulerAngles = new Vector3(transform.eulerAngles.x, destination.transform.eulerAngles.y, transform.eulerAngles.z);
-            SelectVegetable(0);
             //Chopping board options appear.
         }
 
@@ -126,20 +141,24 @@ public class PlayerController : MonoBehaviour
 
     public void PickupItem(GameObject veg)
     {
-        if (!vegetablesCarryingArray[0] == null)
+        if (vegetablesCarryingArray[0] == null)
         {
             vegetablesCarryingArray[0] = veg;
+            Debug.Log("picked up vegetable in slot 1: " + veg.name);
         }
-        else
+        else if (vegetablesCarryingArray[1] == null)
         {
             vegetablesCarryingArray[1] = veg;
+            Debug.Log("picked up vegetable in slot 2: " + veg.name);
         }
+        else
+            return;
     }
 
 
     public void DropVegetables()
     {
-        if (!vegetablesCarryingArray[0] == null)
+        if (vegetablesCarryingArray[0] != null)
         {
             Instantiate(vegetablesCarryingArray[0], selectedChoppingBoard.transform);
         }
@@ -149,11 +168,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void Chop()
-    {
-        //wait some time
-        //combine vegetable if any previous chopped vegetables present
-    }
+
 
     public void DropAtSidePlate()
     {
