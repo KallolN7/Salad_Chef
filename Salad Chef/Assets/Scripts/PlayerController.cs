@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     public string saladCombination;
     [HideInInspector]
     public bool canServe;
+    
 
     public GameObject[] vegetablePrefabs;
     public GameObject saladBowlPrefab;
@@ -106,6 +107,11 @@ public class PlayerController : MonoBehaviour
         {
             destination = VegetableStops[10].transform;
             MoveToTarget();
+        }
+
+        else if (Input.GetKeyDown(KeyCode.LeftControl) && canServe)
+        {
+            Trash();
         }
 
         if (destination == null || agent.transform.position.x != destination.position.x)
@@ -211,25 +217,30 @@ public class PlayerController : MonoBehaviour
                 saladBowl.transform.parent = null;                
                 saladBowl.transform.position = servingPos1.position;
                 Debug.Log("served: " + saladBowl.name);
+                canServe = false;
                 break;
             case 2:
                 saladBowl.transform.SetParent(servingPos2);
                 saladBowl.transform.position = servingPos2.position;
                 Debug.Log("served: " + saladBowl.name);
+                canServe = false;
                 break;
             case 3:
                 saladBowl.transform.SetParent(servingPos3);
                 saladBowl.transform.position = servingPos3.position;
                 Debug.Log("served: " + saladBowl.name);
+                canServe = false;
                 break;
         }
        
     }
 
-    public void Drop()
+    public void Trash()
     {
-        saladBowl.transform.parent = null;
-        saladBowl.transform.position = servingPos1.position;
+        //destination = VegetableStops[11].transform;
+        //Vector3 target = new Vector3(destination.position.x, destination.position.y, destination.position.z);
+        //agent.SetDestination(target);
+        Destroy(saladBowl);
     }
 
 

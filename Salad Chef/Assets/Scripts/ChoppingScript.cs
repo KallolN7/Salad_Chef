@@ -10,9 +10,11 @@ public class ChoppingScript : MonoBehaviour
     float currCountdownValue;
     public GameObject saladBowl;
     public GameObject spawnPos;
+    public GameObject sidePlatePos;
     private GameObject PlayerVeg1, PlayerVeg2;
     private GameObject spawnedBowl;
     private string combination;
+    GameObject sidePlateVeg;
 
     // Start is called before the first frame update
     void Start()
@@ -26,11 +28,18 @@ public class ChoppingScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && canDrop)
         {
             Chop();
+            canDrop = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && choppingDone)
+        else if (Input.GetKeyDown(KeyCode.Space) && choppingDone)
         {
             PickUpSaladBowl();
+            choppingDone = false;
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftAlt) && choppingDone)
+        {
+            Chop();
+            canDrop = false;
         }
     }
 
@@ -117,6 +126,45 @@ public class ChoppingScript : MonoBehaviour
         player1.canServe = true;
         saladBowl = null;
         combination = null;
+    }
+
+
+    public void DropAtSidePlate()
+    {
+        if (sidePlateVeg == null)
+        {
+            if (player1.vegetablesCarryingArray[0] != null)
+            {
+                sidePlateVeg = player1.vegetablesCarryingArray[0];
+                player1.vegetablesCarryingArray[0] = null;
+                Debug.Log("sidePlateVeg plate veg: " + sidePlateVeg);
+            }
+            else if (player1.vegetablesCarryingArray[1] != null)
+            {
+                sidePlateVeg = player1.vegetablesCarryingArray[1];
+                player1.vegetablesCarryingArray[1] = null;
+                Debug.Log("sidePlateVeg plate veg: " + sidePlateVeg);
+            }
+        }
+        else
+            return;
+    }
+
+    public void PickUpFromSidePlate()
+    {
+        if(sidePlateVeg != null)
+        {
+            if (player1.vegetablesCarryingArray[0] == null)
+            {
+                player1.vegetablesCarryingArray[0] = sidePlateVeg;
+                Debug.Log("picked up side plate veg: " + sidePlateVeg.name);
+            }
+            else if (player1.vegetablesCarryingArray[1] == null)
+            {
+                player1.vegetablesCarryingArray[1] = sidePlateVeg;
+                Debug.Log("picked up side plate veg: " + sidePlateVeg.name);
+            }
+        }
     }
 
 
