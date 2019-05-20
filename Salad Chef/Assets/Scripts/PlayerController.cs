@@ -11,6 +11,12 @@ public class PlayerController : MonoBehaviour
 
     [HideInInspector]
    public GameObject[] vegetablesCarryingArray = new GameObject[2];
+    [HideInInspector]
+    public GameObject saladBowl;
+    [HideInInspector]
+    public string saladCombination;
+    [HideInInspector]
+    public bool canServe;
 
     public GameObject[] vegetablePrefabs;
     public GameObject saladBowlPrefab;
@@ -20,6 +26,10 @@ public class PlayerController : MonoBehaviour
     bool canpickup = true;
     private Transform destination;
     public ManagerScript manage;
+    public Transform bowlHoldingPos;
+    public Transform servingPos1, servingPos2, servingPos3;
+    
+    
 
     // Start is called before the first frame update
     void Start()
@@ -78,6 +88,23 @@ public class PlayerController : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.D))
         {
             destination = VegetableStops[1].transform;
+            MoveToTarget();
+        }
+
+        else if (Input.GetKeyDown(KeyCode.A) && canServe)
+        {
+            destination = VegetableStops[8].transform;
+            MoveToTarget();
+        }
+
+        else if (Input.GetKeyDown(KeyCode.S) && canServe)
+        {
+            destination = VegetableStops[9].transform;
+            MoveToTarget();
+        }
+        else if (Input.GetKeyDown(KeyCode.D) && canServe)
+        {
+            destination = VegetableStops[10].transform;
             MoveToTarget();
         }
 
@@ -169,6 +196,43 @@ public class PlayerController : MonoBehaviour
     }
 
 
+    public void PickUpSaladBowl(GameObject bowl)
+    {
+        bowl.transform.position = bowlHoldingPos.position;
+        bowl.transform.parent = transform;
+        saladBowl = bowl;
+    }
+
+    public void ServeCustomer(int customer)
+    {    
+        switch (customer)
+        {
+            case 1:
+                saladBowl.transform.parent = null;                
+                saladBowl.transform.position = servingPos1.position;
+                Debug.Log("served: " + saladBowl.name);
+                break;
+            case 2:
+                saladBowl.transform.SetParent(servingPos2);
+                saladBowl.transform.position = servingPos2.position;
+                Debug.Log("served: " + saladBowl.name);
+                break;
+            case 3:
+                saladBowl.transform.SetParent(servingPos3);
+                saladBowl.transform.position = servingPos3.position;
+                Debug.Log("served: " + saladBowl.name);
+                break;
+        }
+       
+    }
+
+    public void Drop()
+    {
+        saladBowl.transform.parent = null;
+        saladBowl.transform.position = servingPos1.position;
+    }
+
+
 
     public void DropAtSidePlate()
     {
@@ -180,10 +244,7 @@ public class PlayerController : MonoBehaviour
         //pickup item from side plate
     }
 
-    public void ServeCustomer()
-    {
-        //take plate and serve  customer
-    }
+   
 
 
 
