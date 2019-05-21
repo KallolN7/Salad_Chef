@@ -6,10 +6,11 @@ using UnityEngine.UI;
 public class VegetableScript : MonoBehaviour
 {
     public int vegId;
-    public PlayerController player;
+    private PlayerController player1;
     public GameObject Player1GoToChopButton1;
     public GameObject Player1GoToChopButton2;
     public GameObject Player1PickupAgainButton;
+    public GameObject Player1PickAnotherVegButton;
     bool canpickup = false;
 
     // Start is called before the first frame update
@@ -21,9 +22,16 @@ public class VegetableScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+         if (Input.GetKeyDown(KeyCode.Escape) && player1!= null && player1.destination == transform)
+        {
+            player1.ResetVegetableButtons();
+            Debug.Log("reset");
+        }
+
         if (Input.GetKeyDown(KeyCode.A) && canpickup)
         {
-          
+            player1.CloseVegButtons();
+
             Player1GoToChopButton1.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "S";
             Player1GoToChopButton1.transform.GetChild(1).GetComponent<Text>().text = "Go to Chopping Board1";
             Player1GoToChopButton1.SetActive(true);
@@ -32,16 +40,20 @@ public class VegetableScript : MonoBehaviour
             Player1GoToChopButton2.transform.GetChild(1).GetComponent<Text>().text = "Go to Chopping Board2";
             Player1GoToChopButton2.SetActive(true);
 
-            if (canpickup)
+            Player1PickAnotherVegButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Esc";
+            Player1PickAnotherVegButton.transform.GetChild(1).GetComponent<Text>().text = "Pick other Vegetable";
+            Player1PickAnotherVegButton.SetActive(true);
+
+            if (player1.vegetablesCarryingArray[0]==null || player1.vegetablesCarryingArray[1] == null)
             {
                 Player1PickupAgainButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "A";
                 Player1PickupAgainButton.transform.GetChild(1).GetComponent<Text>().text = "Pickup Again";
                 Player1PickupAgainButton.SetActive(true);
             }
-            else
+            else 
                 Player1PickupAgainButton.SetActive(false);
 
-            player.SelectVegetable(vegId);
+            player1.SelectVegetable(vegId);
             return;
         }
         else
@@ -52,9 +64,19 @@ public class VegetableScript : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player1")
-        {
-            canpickup = true;
-            Debug.Log("player entered zone " + gameObject.name);
+        {         
+            player1 = other.GetComponent<PlayerController>();
+            if(player1.destination == transform)
+            {
+                canpickup = true;
+                player1.CloseVegButtons();
+                player1.Player1ActionButton.SetActive(true);
+                player1.Player1Buttons[0].transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Esc";
+                player1.Player1Buttons[0].transform.GetChild(1).GetComponent<Text>().text = "Discard";
+                player1.Player1Buttons[0].SetActive(true);
+                Debug.Log("player entered zone " + gameObject.name);
+            }
+            
         }
     }
 
@@ -63,6 +85,9 @@ public class VegetableScript : MonoBehaviour
         if (other.tag == "Player1")
         {
             canpickup = false;
+            player1.CloseVegButtons();
+            player1.Player1ActionButton.SetActive(false);
+            player1 = null;
             Debug.Log("player left zone " + gameObject.name);
         }
     }

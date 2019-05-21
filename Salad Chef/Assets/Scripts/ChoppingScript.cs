@@ -16,6 +16,7 @@ public class ChoppingScript : MonoBehaviour
     public GameObject Player1ChopButton;
     public GameObject Player1SidePlateButton;
     public GameObject Player1TrashButton;
+    public GameObject Player1ServeButton;
     private GameObject PlayerVeg1, PlayerVeg2;
     private GameObject spawnedBowl;
     private string combination;
@@ -31,6 +32,7 @@ public class ChoppingScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+      
         if (Input.GetKeyDown(KeyCode.Space) && canDrop)
         {
             Chop();
@@ -48,22 +50,25 @@ public class ChoppingScript : MonoBehaviour
             canDrop = false;
         }
 
-        else if (Input.GetKeyDown(KeyCode.LeftControl) && canDrop)
+        else if (Input.GetKeyDown(KeyCode.LeftControl) && canDrop && !canPickupFromSideTable)
         {
             DropAtSidePlate();
-            canDrop = false;
         }
-        else if (Input.GetKeyDown(KeyCode.LeftControl) && canDrop && canPickupFromSideTable)
+        else if (Input.GetKeyDown(KeyCode.LeftControl) && canPickupFromSideTable)
         {
             PickUpFromSidePlate();
-            canDrop = false;
         }
 
         else if (Input.GetKeyDown(KeyCode.LeftShift) && choppingDone)
         {
             Trash();
-            canDrop = false;
+
         }
+        else if (Input.GetKeyDown(KeyCode.Tab) && choppingDone)
+        {
+            player1.OpenServeButtons();
+        }
+
     }
 
 
@@ -75,17 +80,30 @@ public class ChoppingScript : MonoBehaviour
             Debug.Log("player entered zone " + gameObject.name);
             player1 = other.GetComponent<PlayerController>();
 
-            if(player1.vegetablesCarryingArray!= null)
+            if(player1.vegetablesCarryingArray!= null && player1.destination == transform)
             {
-                
+                player1.CloseVegButtons();
+                player1.Player1ActionButton.SetActive(false);
+
+                Player1ChopButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Space";
+                Player1ChopButton.transform.GetChild(1).GetComponent<Text>().text = "Chop";
+                Player1ChopButton.SetActive(true);
+
                 if (other.GetComponent<PlayerController>().vegetablesCarryingArray[1] != null)
                 {
                     PlayerVeg2 = other.GetComponent<PlayerController>().vegetablesCarryingArray[1];
+
+                    Player1SidePlateButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "LCtrl";
+                    Player1SidePlateButton.transform.GetChild(1).GetComponent<Text>().text = "Keep at Side Plate";
+                    Player1SidePlateButton.SetActive(true);
                     Debug.Log(PlayerVeg2.name);
                 }
                 else if(other.GetComponent<PlayerController>().vegetablesCarryingArray[0] != null)
                 {
                     PlayerVeg1 = other.GetComponent<PlayerController>().vegetablesCarryingArray[0];
+                    Player1SidePlateButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "LCtrl";
+                    Player1SidePlateButton.transform.GetChild(1).GetComponent<Text>().text = "Keep at Side Plate";
+                    Player1SidePlateButton.SetActive(true);
                     Debug.Log(PlayerVeg1.name);
                 }
             }
@@ -98,9 +116,10 @@ public class ChoppingScript : MonoBehaviour
         if (other.tag == "Player1")
         {
             canDrop = false;
-            Player1ChopButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "LAlt";
-            Player1ChopButton.transform.GetChild(1).GetComponent<Text>().text = "Keep at Side Plate";
-            Player1ChopButton.SetActive(true);
+           
+            player1.CloseVegButtons();
+            Player1ChopButton.SetActive(false);
+            player1 = null;
             Debug.Log("player left zone " + gameObject.name);
         }
     }
@@ -151,12 +170,32 @@ public class ChoppingScript : MonoBehaviour
         player1.isChopping = false;
 
         Player1ChopButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Space";
-        Player1ChopButton.transform.GetChild(1).GetComponent<Text>().text = "Chop";
+        Player1ChopButton.transform.GetChild(1).GetComponent<Text>().text = "Pickup Bowl";
         Player1ChopButton.SetActive(true);
 
-        Player1TrashButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "LCntrl";
+        Player1TrashButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "LShift";
         Player1TrashButton.transform.GetChild(1).GetComponent<Text>().text = "Trash";
         Player1TrashButton.SetActive(true);
+
+        Player1ServeButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Esc";
+        Player1ServeButton.transform.GetChild(1).GetComponent<Text>().text = "Serve";
+        Player1ServeButton.SetActive(true);
+
+        if(sidePlateVeg == null)
+        {
+            Player1SidePlateButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "LCntrl";
+            Player1SidePlateButton.transform.GetChild(1).GetComponent<Text>().text = "Drop at side plate";
+            Player1SidePlateButton.SetActive(true);
+        }
+        else
+        {
+            Player1SidePlateButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "LCntrl";
+            Player1SidePlateButton.transform.GetChild(1).GetComponent<Text>().text = "pickup from side plate";
+            Player1SidePlateButton.SetActive(true);
+        }
+        
+
+       
     }
 
     public void PickUpSaladBowl()
@@ -176,37 +215,44 @@ public class ChoppingScript : MonoBehaviour
         {
             if (player1.vegetablesCarryingArray[0] != null)
             {
-                sidePlateVeg = player1.vegetablesCarryingArray[0];
-   
-                for( int i=0; i< player1.vegetablePrefabs.Length; i++)
+                //sidePlateVeg = player1.vegetablesCarryingArray[0];
+                //sidePlateVeg.name = player1.vegetablesCarryingArray[0].name;
+
+                for ( int i=0; i< player1.vegetablePrefabs.Length; i++)
                 {
                     if(player1.vegetablePrefabs[i].name == player1.vegetablesCarryingArray[0].name)
                     {
-                        Instantiate(player1.vegetablePrefabs[i], sidePlatePos.transform.position, sidePlatePos.transform.rotation);
+                        sidePlateVeg = Instantiate(player1.vegetablePrefabs[i], sidePlatePos.transform.position, sidePlatePos.transform.rotation);
+                        sidePlateVeg.name = player1.vegetablePrefabs[i].name;
                         Destroy(player1.vegetablesCarryingArray[0]);
                     }
                 }
                 canPickupFromSideTable = true;
                 player1.vegetablesCarryingArray[0] = null;
-                Player1ChopButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "LAlt";
-                Player1ChopButton.transform.GetChild(1).GetComponent<Text>().text = "Take from side plate";
+                Player1SidePlateButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "LCtrl";
+                Player1SidePlateButton.transform.GetChild(1).GetComponent<Text>().text = "Pickup from Side Plate";
+                Player1SidePlateButton.SetActive(true);
                 Debug.Log("sidePlateVeg plate veg: " + sidePlateVeg);
             }
             else if (player1.vegetablesCarryingArray[1] != null)
             {
-                sidePlateVeg = player1.vegetablesCarryingArray[1];
+                //sidePlateVeg = player1.vegetablesCarryingArray[1];
+                //sidePlateVeg.name = player1.vegetablesCarryingArray[1].name;
+
                 for (int i = 0; i < player1.vegetablePrefabs.Length; i++)
                 {
                     if (player1.vegetablePrefabs[i].name == player1.vegetablesCarryingArray[1].name)
                     {
-                        Instantiate(player1.vegetablePrefabs[i], sidePlatePos.transform.position, sidePlatePos.transform.rotation);
+                        sidePlateVeg = Instantiate(player1.vegetablePrefabs[i], sidePlatePos.transform.position, sidePlatePos.transform.rotation);
+                        sidePlateVeg.name = player1.vegetablePrefabs[i].name;
                         Destroy(player1.vegetablesCarryingArray[1]);
                     }
                 }
                 canPickupFromSideTable = true;
                 player1.vegetablesCarryingArray[1] = null;
-                Player1ChopButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "LAlt";
-                Player1ChopButton.transform.GetChild(1).GetComponent<Text>().text = "Take from side plate";
+                Player1SidePlateButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "LCtrl";
+                Player1SidePlateButton.transform.GetChild(1).GetComponent<Text>().text = "Pickup from Side Plate";
+                Player1SidePlateButton.SetActive(true);
                 Debug.Log("sidePlateVeg plate veg: " + sidePlateVeg);
             }
         }
@@ -218,30 +264,43 @@ public class ChoppingScript : MonoBehaviour
     {
         if(sidePlateVeg != null)
         {
+            Debug.Log(sidePlateVeg.name);
             if (player1.vegetablesCarryingArray[0] == null)
             {
-                player1.vegetablesCarryingArray[0] = sidePlateVeg;
                  for (int i = 0; i < player1.vegetablePrefabs.Length; i++)
                 {
                     if (player1.vegetablePrefabs[i].name == sidePlateVeg.name)
                     {
-                        Instantiate(player1.vegetablePrefabs[i], player1.bowlHoldingPos.transform.position, player1.bowlHoldingPos.transform.rotation);
+                       GameObject obj = Instantiate(player1.vegetablePrefabs[i], player1.bowlHoldingPos.transform.position, player1.bowlHoldingPos.transform.rotation);
+                        obj.transform.SetParent(player1.transform);
+                        obj.name = player1.vegetablePrefabs[i].name;
+                        player1.vegetablesCarryingArray[0] = obj;
                     }
                 }
                 canPickupFromSideTable = false;
+                Destroy(sidePlateVeg);
+                Player1SidePlateButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "LCtrl";
+                Player1SidePlateButton.transform.GetChild(1).GetComponent<Text>().text = "Drop at Side Plate";
+                Player1SidePlateButton.SetActive(true);
                 Debug.Log("picked up side plate veg: " + sidePlateVeg.name);
             }
             else if (player1.vegetablesCarryingArray[1] == null)
             {
-                player1.vegetablesCarryingArray[1] = sidePlateVeg;
                 for (int i = 0; i < player1.vegetablePrefabs.Length; i++)
                 {
                     if (player1.vegetablePrefabs[i].name == sidePlateVeg.name)
                     {
-                        Instantiate(player1.vegetablePrefabs[i], player1.bowlHoldingPos.transform.position, player1.bowlHoldingPos.transform.rotation);
+                        GameObject obj = Instantiate(player1.vegetablePrefabs[i], player1.bowlHoldingPos.transform.position, player1.bowlHoldingPos.transform.rotation);
+                        obj.transform.SetParent(player1.transform);
+                        obj.name = player1.vegetablePrefabs[i].name;
+                        player1.vegetablesCarryingArray[1] = obj;
                     }
                 }
                 canPickupFromSideTable = false;
+                Destroy(sidePlateVeg);
+                Player1SidePlateButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "LCtrl";
+                Player1SidePlateButton.transform.GetChild(1).GetComponent<Text>().text = "Drop at Side Plate";
+                Player1SidePlateButton.SetActive(true);
                 Debug.Log("picked up side plate veg: " + sidePlateVeg.name);
             }
         }
@@ -254,23 +313,6 @@ public class ChoppingScript : MonoBehaviour
         //agent.SetDestination(target);
         Destroy(spawnedBowl);
         player1.canServe = false;
-    }
-
-    public void SetActiveActionButtonsForPlyer1()
-    {
-        Player1ChopButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Space";
-        Player1ChopButton.transform.GetChild(1).GetComponent<Text>().text = "Chop";
-        Player1ChopButton.SetActive(true);
-
-        Player1TrashButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "LCntrl";
-        Player1TrashButton.transform.GetChild(1).GetComponent<Text>().text = "Trash";
-        Player1TrashButton.SetActive(true);
-
-        //Player1ChopButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "LAlt";
-        //Player1ChopButton.transform.GetChild(0).GetComponent<Text>().text = "Keep at Side Plate";
-
-        //Player1ChopButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "LAlt";
-        //Player1ChopButton.transform.GetChild(0).GetComponent<Text>().text = "Take from side plate";
     }
 
 }

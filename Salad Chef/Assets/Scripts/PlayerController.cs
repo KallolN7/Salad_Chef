@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
     public bool canServe;
     [HideInInspector]
     public bool isChopping;
+    [HideInInspector]
+    public bool reachedDestination;
 
     public GameObject[] vegetablePrefabs;
     public GameObject saladBowlPrefab;
@@ -28,7 +30,9 @@ public class PlayerController : MonoBehaviour
     public GameObject Player1ActionButton;
     private GameObject selectedChoppingBoard;
     bool canpickup = true;
-    private Transform destination;
+
+    [HideInInspector]
+    public Transform destination;
     public Transform bowlHoldingPos;
     public Transform servingPos1, servingPos2, servingPos3;
     
@@ -44,10 +48,11 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-      
+       
 
         if (Input.GetKeyDown(KeyCode.Q) && !isChopping)
         {
+            reachedDestination = false;
             destination = VegetableStops[2].transform;
             Player1ActionButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "A";
             Player1ActionButton.transform.GetChild(1).GetComponent<Text>().text = "Pick Up";
@@ -56,6 +61,7 @@ public class PlayerController : MonoBehaviour
 
        else if (Input.GetKeyDown(KeyCode.W) && !isChopping)
         {
+            reachedDestination = false;
             destination = VegetableStops[3].transform;
             Player1ActionButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "A";
             Player1ActionButton.transform.GetChild(1).GetComponent<Text>().text = "Pick Up";
@@ -64,6 +70,7 @@ public class PlayerController : MonoBehaviour
 
         else if (Input.GetKeyDown(KeyCode.E) && !isChopping)
         {
+            reachedDestination = false;
             destination = VegetableStops[4].transform;
             Player1ActionButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "A";
             Player1ActionButton.transform.GetChild(1).GetComponent<Text>().text = "Pick Up";
@@ -72,6 +79,7 @@ public class PlayerController : MonoBehaviour
 
         else if (Input.GetKeyDown(KeyCode.Z) && !isChopping)
         {
+            reachedDestination = false;
             destination = VegetableStops[5].transform;
             Player1ActionButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "A";
             Player1ActionButton.transform.GetChild(1).GetComponent<Text>().text = "Pick Up";
@@ -80,6 +88,7 @@ public class PlayerController : MonoBehaviour
 
         else if (Input.GetKeyDown(KeyCode.X) && !isChopping)
         {
+            reachedDestination = false;
             destination = VegetableStops[6].transform;
             Player1ActionButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "A";
             Player1ActionButton.transform.GetChild(1).GetComponent<Text>().text = "Pick Up";
@@ -88,6 +97,7 @@ public class PlayerController : MonoBehaviour
 
         else if (Input.GetKeyDown(KeyCode.C) && !isChopping)
         {
+            reachedDestination = false;
             destination = VegetableStops[7].transform;
             Player1ActionButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "A";
             Player1ActionButton.transform.GetChild(1).GetComponent<Text>().text = "Pick Up";
@@ -96,29 +106,34 @@ public class PlayerController : MonoBehaviour
 
         else if (Input.GetKeyDown(KeyCode.S))
         {
+            reachedDestination = false;
             destination = VegetableStops[0].transform;
             MoveToTarget();
         }
 
         else if (Input.GetKeyDown(KeyCode.D))
         {
+            reachedDestination = false;
             destination = VegetableStops[1].transform;
             MoveToTarget();
         }
 
         else if (Input.GetKeyDown(KeyCode.Alpha1) && canServe)
         {
+            reachedDestination = false;
             destination = VegetableStops[8].transform;
             MoveToTarget();
         }
 
         else if (Input.GetKeyDown(KeyCode.Alpha2) && canServe)
         {
+            reachedDestination = false;
             destination = VegetableStops[9].transform;
             MoveToTarget();
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3) && canServe)
         {
+            reachedDestination = false;
             destination = VegetableStops[10].transform;
             MoveToTarget();
         }
@@ -127,10 +142,12 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-        else
+        else if(agent.transform.position.x == destination.position.x && !reachedDestination)
         {
             transform.eulerAngles = new Vector3(transform.eulerAngles.x, destination.transform.eulerAngles.y, transform.eulerAngles.z);
-            Player1ActionButton.SetActive(true);
+            reachedDestination = true;
+            //Player1ActionButton.SetActive(true);
+            //CloseVegButtons();
             //Chopping board options appear.
         }
 
@@ -284,6 +301,36 @@ public class PlayerController : MonoBehaviour
         Player1Buttons[5].SetActive(true);
     }
 
+    public void CloseVegButtons()
+    {
+        for(int i = 0; i < Player1Buttons.Length; i ++)
+        {
+            Player1Buttons[i].SetActive(false);
+        }
+    }
+
+    public void OpenServeButtons()
+    {
+        Player1Buttons[0].transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "1";
+        Player1Buttons[0].transform.GetChild(1).GetComponent<Text>().text = "Serve Customer1";
+        Player1Buttons[0].SetActive(true);
+
+        Player1Buttons[1].transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "2";
+        Player1Buttons[1].transform.GetChild(1).GetComponent<Text>().text = "Serve Customer2";
+        Player1Buttons[1].SetActive(true);
+
+        Player1Buttons[2].transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "3";
+        Player1Buttons[2].transform.GetChild(1).GetComponent<Text>().text = "Serve Customer3";
+        Player1Buttons[2].SetActive(true);
+
+        Player1Buttons[3].transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "4";
+        Player1Buttons[3].transform.GetChild(1).GetComponent<Text>().text = "Serve Customer4";
+        Player1Buttons[3].SetActive(true);
+
+        Player1Buttons[4].transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "5";
+        Player1Buttons[4].transform.GetChild(1).GetComponent<Text>().text = "Serve Customer5";
+        Player1Buttons[4].SetActive(true);
+    }
 
 }
 

@@ -232,10 +232,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vegId: 4
-  player: {fileID: 911920465}
   Player1GoToChopButton1: {fileID: 1054191526}
   Player1GoToChopButton2: {fileID: 1727310075}
   Player1PickupAgainButton: {fileID: 309319093}
+  Player1PickAnotherVegButton: {fileID: 1203883780}
 --- !u!65 &54417515
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -894,10 +894,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vegId: 0
-  player: {fileID: 911920465}
   Player1GoToChopButton1: {fileID: 1054191526}
   Player1GoToChopButton2: {fileID: 1727310075}
   Player1PickupAgainButton: {fileID: 309319093}
+  Player1PickAnotherVegButton: {fileID: 1203883780}
 --- !u!65 &271273902
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1697,6 +1697,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CustomerID: 3
   CustomerOrder: 
+  serveButton: {fileID: 309319093}
 --- !u!65 &524570859
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2600,10 +2601,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vegId: 3
-  player: {fileID: 911920465}
   Player1GoToChopButton1: {fileID: 1054191526}
   Player1GoToChopButton2: {fileID: 1727310075}
   Player1PickupAgainButton: {fileID: 309319093}
+  Player1PickAnotherVegButton: {fileID: 1203883780}
 --- !u!65 &725389964
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3450,6 +3451,7 @@ MonoBehaviour:
   Player1ChopButton: {fileID: 0}
   Player1SidePlateButton: {fileID: 0}
   Player1TrashButton: {fileID: 0}
+  Player1ServeButton: {fileID: 1203883780}
 --- !u!1 &796182155
 GameObject:
   m_ObjectHideFlags: 0
@@ -3876,6 +3878,7 @@ MonoBehaviour:
   saladCombination: 
   canServe: 0
   isChopping: 0
+  reachedDestination: 0
   vegetablePrefabs:
   - {fileID: 1411962748, guid: acb54cf45657a0a4d91afc05448f0a7b, type: 3}
   - {fileID: 1423061418, guid: f6823a8c7aa0e2545ad8e1c21139cc88, type: 3}
@@ -3908,6 +3911,7 @@ MonoBehaviour:
   - {fileID: 1165394515}
   - {fileID: 108331367}
   Player1ActionButton: {fileID: 309319093}
+  destination: {fileID: 0}
   bowlHoldingPos: {fileID: 614720014}
   servingPos1: {fileID: 6977572091583088474}
   servingPos2: {fileID: 5357195162960394274}
@@ -4755,6 +4759,7 @@ MonoBehaviour:
   saladCombination: 
   canServe: 0
   isChopping: 0
+  reachedDestination: 0
   vegetablePrefabs: []
   saladBowlPrefab: {fileID: 0}
   choppingBoardFirst: {fileID: 0}
@@ -4762,6 +4767,7 @@ MonoBehaviour:
   VegetableStops: []
   Player1Buttons: []
   Player1ActionButton: {fileID: 0}
+  destination: {fileID: 0}
   bowlHoldingPos: {fileID: 0}
   servingPos1: {fileID: 0}
   servingPos2: {fileID: 0}
@@ -5380,6 +5386,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CustomerID: 2
   CustomerOrder: 
+  serveButton: {fileID: 309319093}
 --- !u!65 &1141754396
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5891,6 +5898,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CustomerID: 1
   CustomerOrder: 
+  serveButton: {fileID: 309319093}
 --- !u!65 &1305367511
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8451,10 +8459,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vegId: 5
-  player: {fileID: 911920465}
   Player1GoToChopButton1: {fileID: 1054191526}
   Player1GoToChopButton2: {fileID: 1727310075}
   Player1PickupAgainButton: {fileID: 309319093}
+  Player1PickAnotherVegButton: {fileID: 1203883780}
 --- !u!65 &1909287863
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9324,9 +9332,10 @@ MonoBehaviour:
     type: 3}
   spawnPos: {fileID: 113731605}
   sidePlatePos: {fileID: 1105607248}
-  Player1ChopButton: {fileID: 1054191526}
-  Player1SidePlateButton: {fileID: 1727310075}
-  Player1TrashButton: {fileID: 1203883780}
+  Player1ChopButton: {fileID: 309319093}
+  Player1SidePlateButton: {fileID: 1054191526}
+  Player1TrashButton: {fileID: 1727310075}
+  Player1ServeButton: {fileID: 1203883780}
 --- !u!1 &2134693108
 GameObject:
   m_ObjectHideFlags: 0
@@ -9372,10 +9381,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vegId: 1
-  player: {fileID: 911920465}
   Player1GoToChopButton1: {fileID: 1054191526}
   Player1GoToChopButton2: {fileID: 1727310075}
   Player1PickupAgainButton: {fileID: 309319093}
+  Player1PickAnotherVegButton: {fileID: 1203883780}
 --- !u!65 &2134693111
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9679,10 +9688,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vegId: 2
-  player: {fileID: 911920465}
   Player1GoToChopButton1: {fileID: 1054191526}
   Player1GoToChopButton2: {fileID: 1727310075}
   Player1PickupAgainButton: {fileID: 309319093}
+  Player1PickAnotherVegButton: {fileID: 1203883780}
 --- !u!65 &2147240835
 BoxCollider:
   m_ObjectHideFlags: 0
