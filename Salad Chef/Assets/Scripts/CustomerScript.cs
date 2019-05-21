@@ -22,7 +22,7 @@ public class CustomerScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.V) && canPlaceBowl)
         {
             player1.ServeCustomer(CustomerID);
-
+            player1.canServe = false;
             if (CustomerOrder == player1.saladCombination)
                 Debug.Log("Happy");
             else
