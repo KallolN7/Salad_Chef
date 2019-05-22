@@ -12,8 +12,9 @@ public class CustomerScript : MonoBehaviour
     public int customerOrderID;
     private bool canPlaceBowl;
     public GameObject serveButton;
+    public GameObject player2ServeButton;
     private PlayerController player1;
-    private PlayerController player2;
+    private Player2Controller player2;
     private float currCountdownValue;
     public Text remarkText;
     public Text orderText;
@@ -44,9 +45,9 @@ public class CustomerScript : MonoBehaviour
             player1.ServeCustomer(CustomerID);
             player1.canServe = false;
             canPlaceBowl = false;
-            float n =(timePast / WaitingTime) * 100;
+            float n = (timePast / WaitingTime) * 100;
 
-            if(customerOrderID == player1.saladCombinationID && n >= 30.0f)
+            if (customerOrderID == player1.saladCombinationID && n >= 30.0f)
             {
                 remarkText.text = "Excellent!";
                 bonusEarned = true;
@@ -55,7 +56,7 @@ public class CustomerScript : MonoBehaviour
                 serveButton.transform.GetChild(1).GetComponent<Text>().text = "Take Bonus";
                 serveButton.SetActive(true);
             }
-           else if (customerOrderID == player1.saladCombinationID)
+            else if (customerOrderID == player1.saladCombinationID)
             {
                 remarkText.text = "Good";
                 player1.player1Points++;
@@ -65,7 +66,7 @@ public class CustomerScript : MonoBehaviour
                 player1.ResetVegetableButtons();
                 player1.Player1ActionButton.SetActive(false);
             }
-                
+
             else
             {
                 remarkText.text = "I am angry!!";
@@ -79,7 +80,6 @@ public class CustomerScript : MonoBehaviour
                 player1.Player1ActionButton.SetActive(false);
                 //reduce time
             }
-               
         }
 
         else if (Input.GetKeyDown(KeyCode.BackQuote) && bonusEarned)
@@ -88,8 +88,58 @@ public class CustomerScript : MonoBehaviour
             player1.GetComponent<NavMeshAgent>().SetDestination(target);
             bonusEarned = false;
         }
-    }
 
+        //Player2 Actions
+        else if (Input.GetKeyDown(KeyCode.Backslash) && canPlaceBowl)
+        {
+            player2.ServeCustomer(CustomerID);
+            player2.canServe = false;
+            canPlaceBowl = false;
+            float n = (timePast / WaitingTime) * 100;
+
+            if (customerOrderID == player1.saladCombinationID && n >= 30.0f)
+            {
+                remarkText.text = "Excellent!";
+                bonusEarned = true;
+                SpawnRandomBonus();
+                serveButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "=";
+                serveButton.transform.GetChild(1).GetComponent<Text>().text = "Take Bonus";
+                serveButton.SetActive(true);
+            }
+            else if (customerOrderID == player1.saladCombinationID)
+            {
+                remarkText.text = "Good";
+                player2.player1Points++;
+                manager.Player2ScoreText.text =  player2.player1Points.ToString() + " :Player2 Score";
+                gameObject.SetActive(false);
+                player2.CloseVegButtons();
+                player2.ResetVegetableButtons();
+                player2.Player1ActionButton.SetActive(false);
+            }
+
+            else
+            {
+                remarkText.text = "I am angry!!";
+                player2.player1Points--;
+                manager.Player2ScoreText.text = player2.player1Points.ToString() + " :Player2 Score";
+                StopCoroutine(co);
+                timeBar.color = Color.red;
+                StartCoroutine(WaitingCountdown(timePast, 0.5f));
+                player2.CloseVegButtons();
+                player2.ResetVegetableButtons();
+                player2.Player1ActionButton.SetActive(false);
+                //reduce time
+            }
+
+        }
+
+        else if (Input.GetKeyDown(KeyCode.Equals) && bonusEarned)
+        {
+            Vector3 target = new Vector3(bonusSpawnPos[randomArea].position.x, bonusSpawnPos[randomArea].position.y, bonusSpawnPos[randomArea].position.z);
+            player2.GetComponent<NavMeshAgent>().SetDestination(target);
+            bonusEarned = false;
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -106,6 +156,21 @@ public class CustomerScript : MonoBehaviour
             }
           
         }
+
+        //Player2 Zone
+       else if (other.tag == "Player2")
+        {
+            canPlaceBowl = true;
+            player2 = other.GetComponent<Player2Controller>();
+            if (player2.destination == transform)
+            {
+                player2ServeButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Backslash" ;
+                player2ServeButton.transform.GetChild(1).GetComponent<Text>().text = "Serve";
+                player2ServeButton.SetActive(true);
+                Debug.Log("player2 entered zone " + gameObject.name);
+            }
+
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -117,6 +182,14 @@ public class CustomerScript : MonoBehaviour
             player1.Player1ActionButton.SetActive(false);
             player1 = null;
             Debug.Log("player left zone " + gameObject.name);
+        }
+        else if (other.tag == "Player2")
+        {
+            canPlaceBowl = false;
+            player2.CloseVegButtons();
+            player2.Player1ActionButton.SetActive(false);
+            player2 = null;
+            Debug.Log("player2 left zone " + gameObject.name);
         }
     }
 

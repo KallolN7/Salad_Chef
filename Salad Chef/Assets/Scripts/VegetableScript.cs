@@ -8,11 +8,17 @@ public class VegetableScript : MonoBehaviour
     public int vegId;
     public int orderCalculationID;
     private PlayerController player1;
+    private Player2Controller player2;
     public GameObject Player1GoToChopButton1;
     public GameObject Player1GoToChopButton2;
     public GameObject Player1PickupAgainButton;
     public GameObject Player1PickAnotherVegButton;
+    public GameObject Player2GoToChopButton1;
+    public GameObject Player2GoToChopButton2;
+    public GameObject Player2PickupAgainButton;
+    public GameObject Player2PickAnotherVegButton;
     bool canpickup = false;
+    bool player2pickup;
 
     // Start is called before the first frame update
     void Start()
@@ -55,7 +61,6 @@ public class VegetableScript : MonoBehaviour
                 Player1PickupAgainButton.SetActive(false);
 
             player1.SelectVegetable(vegId, orderCalculationID);
-
             return;
         }
         else
@@ -80,6 +85,21 @@ public class VegetableScript : MonoBehaviour
             }
             
         }
+        else if(other.tag == "Player2")
+        {
+            player2 = other.GetComponent<Player2Controller>();
+            if (player2.destination == transform)
+            {
+                player2pickup = true;
+                player2.CloseVegButtons();
+                player2.Player1ActionButton.SetActive(true);
+                player2.Player1Buttons[0].transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Esc";
+                player2.Player1Buttons[0].transform.GetChild(1).GetComponent<Text>().text = "Discard";
+                player2.Player1Buttons[0].SetActive(true);
+                Debug.Log("player2 entered zone " + gameObject.name);
+            }
+
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -91,6 +111,14 @@ public class VegetableScript : MonoBehaviour
             player1.Player1ActionButton.SetActive(false);
             player1 = null;
             Debug.Log("player left zone " + gameObject.name);
+        }
+        else if (other.tag == "Player2")
+        {
+            player2pickup = false;
+            player2.CloseVegButtons();
+            player2.Player1ActionButton.SetActive(false);
+            player2 = null;
+            Debug.Log("player2 left zone " + gameObject.name);
         }
     }
 

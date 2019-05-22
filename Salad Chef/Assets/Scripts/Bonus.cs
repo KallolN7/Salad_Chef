@@ -7,6 +7,7 @@ public class Bonus : MonoBehaviour
 {
     public int bonusID;
     private PlayerController player1;
+    private Player2Controller player2;
     public ManagerScript manager;
    
 
@@ -50,6 +51,30 @@ public class Bonus : MonoBehaviour
             Destroy(gameObject);
 
         }
+        else if (other.tag == "Player2")
+        {
+            Debug.Log("player2 entered bonus area");
+            player2 = other.GetComponent<Player2Controller>();
+
+            switch (bonusID)
+            {
+                case 1:
+                    player2.player1Points = player2.player1Points + 10;
+                    break;
+                case 2:
+                    manager.player2CurrCountdownValue = manager.player2CurrCountdownValue + 10;
+                    break;
+                case 3:
+                    StartCoroutine(IncreaseSpeedTemporarilyForPlayer2());
+                    break;
+
+            }
+            player2.CloseVegButtons();
+            player2.Player1ActionButton.SetActive(false);
+            player2.ResetVegetableButtons();
+            Destroy(gameObject);
+
+        }
     }
 
 
@@ -60,6 +85,16 @@ public class Bonus : MonoBehaviour
 
         yield return new WaitForSeconds(5);
         player1.GetComponent<NavMeshAgent>().speed = s;
+
+    }
+
+    IEnumerator IncreaseSpeedTemporarilyForPlayer2()
+    {
+        float s = player2.GetComponent<NavMeshAgent>().speed;
+        player2.GetComponent<NavMeshAgent>().speed = player2.GetComponent<NavMeshAgent>().speed + 3;
+
+        yield return new WaitForSeconds(5);
+        player2.GetComponent<NavMeshAgent>().speed = s;
 
     }
 }

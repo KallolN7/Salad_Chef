@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class ManagerScript : MonoBehaviour
 {
     public PlayerController player1;
+    public Player2Controller player2;
     public Text Player1ScoreText;
     public Text Player2ScoreText;
     public Text Player1TimeLeftText;
@@ -45,23 +47,30 @@ public class ManagerScript : MonoBehaviour
             }
         }
 
+        else if(Input.GetKeyDown(KeyCode.Escape) && !isGameOn)
+        {
+            Scene scene = SceneManager.GetActiveScene();
+            SceneManager.LoadScene(scene.name);
+        }
 
-        //for (int i = 0; i < customers.Length; i++)
-        //{
-        //   if( customers[i].istimeLeft)
-        //    {
-        //        customerLeft++;
-        //        if(customerLeft >= 5)
-        //        {
-        //            player1.CloseVegButtons();
-        //            player1.Player1ActionButton.SetActive(false);
-        //            isGameOn = false;
-        //            //show highscore
-        //            //option to restart
-        //        }
-        //    }
-           
-        //}
+        for (int i = 0; i < customers.Length; i++)
+        {
+            if (customers[i].istimeLeft)
+            {
+                customerLeft++;
+                if (customerLeft >= 5)
+                {
+                    player1.CloseVegButtons();
+                    player1.Player1ActionButton.SetActive(false);
+                    isGameOn = false;
+                    player1.Player1ActionButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Esc";
+                    player1.Player1ActionButton.transform.GetChild(1).GetComponent<Text>().text = "Restart";
+                    //show highscore
+                    //option to restart
+                }
+            }
+
+        }
 
     }
 
@@ -72,7 +81,7 @@ public class ManagerScript : MonoBehaviour
         while (player1CurrCountdownValue > 0)
         {
             (Player1TimeLeftImage.fillAmount) = (player1CurrCountdownValue / countdownValue);
-            Debug.Log(Player1TimeLeftImage.fillAmount);
+           // Debug.Log(Player1TimeLeftImage.fillAmount);
             yield return new WaitForSeconds(1);
             player1CurrCountdownValue--;
             
@@ -107,13 +116,5 @@ public class ManagerScript : MonoBehaviour
     }
 
 
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.tag == "Player1")
-        {
-
-        }
-    }
 
 }
