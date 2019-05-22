@@ -38,6 +38,10 @@ public class ManagerScript : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space) && !isGameOn)
         {
             isGameOn = true;
+            player1.ResetVegetableButtons();
+            player2.ResetVegetableButtons();
+            player2.Player1ActionButton.SetActive(false);
+            player1.Player1ActionButton.SetActive(false);
             StartCoroutine(Player1Countdown(Player1TimeLeft));
             StartCoroutine(Player2Countdown(Player2TimeLeft));
 
@@ -53,23 +57,20 @@ public class ManagerScript : MonoBehaviour
             SceneManager.LoadScene(scene.name);
         }
 
-        for (int i = 0; i < customers.Length; i++)
-        {
-            if (customers[i].istimeLeft)
-            {
-                customerLeft++;
-                if (customerLeft >= 5)
-                {
-                    player1.CloseVegButtons();
-                    player1.Player1ActionButton.SetActive(false);
-                    isGameOn = false;
-                    player1.Player1ActionButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Esc";
-                    player1.Player1ActionButton.transform.GetChild(1).GetComponent<Text>().text = "Restart";
-                    //show highscore
-                    //option to restart
-                }
-            }
 
+        if(customers[0].istimeLeft == false && customers[1].istimeLeft == false && customers[2].istimeLeft == false && customers[3].istimeLeft ==false && customers[4].istimeLeft ==false )
+        {
+            player1.CloseVegButtons();
+            player1.Player1ActionButton.SetActive(false);
+            player2.CloseVegButtons();
+            player2.Player1ActionButton.SetActive(false);
+            player1.Player1ActionButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Esc";
+            player1.Player1ActionButton.transform.GetChild(1).GetComponent<Text>().text = "Restart";
+            player1.Player1ActionButton.SetActive(true);
+            isGameOn = false;
+           
+            //show highscore
+            //option to restart
         }
 
     }

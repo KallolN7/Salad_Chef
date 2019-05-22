@@ -54,6 +54,10 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
+        CloseVegButtons();
+        Player1ActionButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Space";
+        Player1ActionButton.transform.GetChild(1).GetComponent<Text>().text = "Start";
+        Player1ActionButton.SetActive(true);
     }
 
     // Update is called once per frame

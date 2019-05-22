@@ -61,8 +61,43 @@ public class VegetableScript : MonoBehaviour
                 Player1PickupAgainButton.SetActive(false);
 
             player1.SelectVegetable(vegId, orderCalculationID);
-            return;
         }
+
+        //Player2 Zone
+       if (Input.GetKeyDown(KeyCode.Backspace) && player2 != null && player2.destination == transform)
+        {
+            player2.ResetVegetableButtons();
+            Debug.Log("reset");
+        }
+
+        if (Input.GetKeyDown(KeyCode.L) && player2pickup)
+        {
+            player2.SelectVegetable(vegId, orderCalculationID);
+
+            player2.CloseVegButtons();
+
+            Player2GoToChopButton1.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = ";";
+            Player2GoToChopButton1.transform.GetChild(1).GetComponent<Text>().text = "Go to Chopping Board1";
+            Player2GoToChopButton1.SetActive(true);
+
+            Player2GoToChopButton2.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "'";
+            Player2GoToChopButton2.transform.GetChild(1).GetComponent<Text>().text = "Go to Chopping Board2";
+            Player2GoToChopButton2.SetActive(true);
+
+            Player2PickAnotherVegButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Backspace";
+            Player2PickAnotherVegButton.transform.GetChild(1).GetComponent<Text>().text = "Pick other Vegetable";
+            Player2PickAnotherVegButton.SetActive(true);
+
+            if (player2.vegetablesCarryingArray[0] == null || player2.vegetablesCarryingArray[1] == null)
+            {
+                Player2PickupAgainButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "L";
+                Player2PickupAgainButton.transform.GetChild(1).GetComponent<Text>().text = "Pickup Again";
+                Player2PickupAgainButton.SetActive(true);
+            }
+            else
+                Player2PickupAgainButton.SetActive(false);
+        }
+
         else
             return;
     }
@@ -85,6 +120,7 @@ public class VegetableScript : MonoBehaviour
             }
             
         }
+
         else if(other.tag == "Player2")
         {
             player2 = other.GetComponent<Player2Controller>();
@@ -93,7 +129,7 @@ public class VegetableScript : MonoBehaviour
                 player2pickup = true;
                 player2.CloseVegButtons();
                 player2.Player1ActionButton.SetActive(true);
-                player2.Player1Buttons[0].transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Esc";
+                player2.Player1Buttons[0].transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "BackSpace";
                 player2.Player1Buttons[0].transform.GetChild(1).GetComponent<Text>().text = "Discard";
                 player2.Player1Buttons[0].SetActive(true);
                 Debug.Log("player2 entered zone " + gameObject.name);

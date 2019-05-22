@@ -188,7 +188,7 @@ public class ChoppingScript : MonoBehaviour
                 }
                 else if (other.GetComponent<Player2Controller>().vegetablesCarryingArray[0] != null)
                 {
-                    Player2Veg1 = other.GetComponent<PlayerController>().vegetablesCarryingArray[0];
+                    Player2Veg1 = other.GetComponent<Player2Controller>().vegetablesCarryingArray[0];
                     Player2SidePlateButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "RCtrl";
                     Player2SidePlateButton.transform.GetChild(1).GetComponent<Text>().text = "Keep at Side Plate";
                     Player2SidePlateButton.SetActive(true);
@@ -478,7 +478,7 @@ public class ChoppingScript : MonoBehaviour
         spawnedBowl = Instantiate(saladBowl, spawnPos.transform.position, spawnPos.transform.rotation);
         spawnedBowl.name = combination;
         choppingDone = true;
-        player1.isChopping = false;
+        player2.isChopping = false;
 
         Player2ChopButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Enter";
         Player2ChopButton.transform.GetChild(1).GetComponent<Text>().text = "Pickup Bowl";
@@ -527,7 +527,7 @@ public class ChoppingScript : MonoBehaviour
                 //sidePlateVeg = player1.vegetablesCarryingArray[0];
                 //sidePlateVeg.name = player1.vegetablesCarryingArray[0].name;
 
-                for (int i = 0; i < player1.vegetablePrefabs.Length; i++)
+                for (int i = 0; i < player2.vegetablePrefabs.Length; i++)
                 {
                     if (player2.vegetablePrefabs[i].name == player2.vegetablesCarryingArray[0].name)
                     {

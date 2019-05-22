@@ -341,10 +341,10 @@ MonoBehaviour:
   Player1GoToChopButton2: {fileID: 1727310075}
   Player1PickupAgainButton: {fileID: 309319093}
   Player1PickAnotherVegButton: {fileID: 1203883780}
-  Player2GoToChopButton1: {fileID: 0}
-  Player2GoToChopButton2: {fileID: 0}
-  Player2PickupAgainButton: {fileID: 0}
-  Player2PickAnotherVegButton: {fileID: 0}
+  Player2GoToChopButton1: {fileID: 1015998644}
+  Player2GoToChopButton2: {fileID: 1389346737}
+  Player2PickupAgainButton: {fileID: 663109405}
+  Player2PickAnotherVegButton: {fileID: 796182155}
 --- !u!65 &54417515
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1122,15 +1122,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   istimeLeft: 1
   CustomerID: 4
-  CustomerOrder: onion
-  customerOrderID: 1
+  CustomerOrder: onion, Cucumber, Broccoli
+  customerOrderID: 19
   serveButton: {fileID: 309319093}
   player2ServeButton: {fileID: 663109405}
   remarkText: {fileID: 168873599}
   orderText: {fileID: 350397643}
   customer: {fileID: 996785179}
   timeBar: {fileID: 1261479628}
-  WaitingTime: 200
+  WaitingTime: 20
   manager: {fileID: 2049316177}
   bonus:
   - {fileID: 5372669327968019830, guid: 443d2128e95e2254794c9201e70d0c78, type: 3}
@@ -1263,10 +1263,10 @@ MonoBehaviour:
   Player1GoToChopButton2: {fileID: 1727310075}
   Player1PickupAgainButton: {fileID: 309319093}
   Player1PickAnotherVegButton: {fileID: 1203883780}
-  Player2GoToChopButton1: {fileID: 0}
-  Player2GoToChopButton2: {fileID: 0}
-  Player2PickupAgainButton: {fileID: 0}
-  Player2PickAnotherVegButton: {fileID: 0}
+  Player2GoToChopButton1: {fileID: 1015998644}
+  Player2GoToChopButton2: {fileID: 1389346737}
+  Player2PickupAgainButton: {fileID: 663109405}
+  Player2PickAnotherVegButton: {fileID: 796182155}
 --- !u!65 &271273902
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1706,15 +1706,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   istimeLeft: 1
   CustomerID: 2
-  CustomerOrder: onion
-  customerOrderID: 1
+  CustomerOrder: Carrot, Mushrooms, Broccoli
+  customerOrderID: 23
   serveButton: {fileID: 309319093}
   player2ServeButton: {fileID: 663109405}
   remarkText: {fileID: 976686699}
   orderText: {fileID: 1709778975}
   customer: {fileID: 664571153}
   timeBar: {fileID: 1503474458}
-  WaitingTime: 200
+  WaitingTime: 20
   manager: {fileID: 2049316177}
   bonus:
   - {fileID: 5372669327968019830, guid: 443d2128e95e2254794c9201e70d0c78, type: 3}
@@ -4477,10 +4477,10 @@ MonoBehaviour:
   Player1GoToChopButton2: {fileID: 1727310075}
   Player1PickupAgainButton: {fileID: 309319093}
   Player1PickAnotherVegButton: {fileID: 1203883780}
-  Player2GoToChopButton1: {fileID: 0}
-  Player2GoToChopButton2: {fileID: 0}
-  Player2PickupAgainButton: {fileID: 0}
-  Player2PickAnotherVegButton: {fileID: 0}
+  Player2GoToChopButton1: {fileID: 1015998644}
+  Player2GoToChopButton2: {fileID: 1389346737}
+  Player2PickupAgainButton: {fileID: 663109405}
+  Player2PickAnotherVegButton: {fileID: 796182155}
 --- !u!65 &725389964
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5537,7 +5537,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 3, z: 1}
+  m_Size: {x: 2, y: 3, z: 2}
   m_Center: {x: 0, y: 2, z: 0}
 --- !u!114 &794792009
 MonoBehaviour:
@@ -5555,14 +5555,14 @@ MonoBehaviour:
     type: 3}
   spawnPos: {fileID: 303292752}
   sidePlatePos: {fileID: 331684083}
-  Player1ChopButton: {fileID: 0}
-  Player1SidePlateButton: {fileID: 0}
-  Player1TrashButton: {fileID: 0}
+  Player1ChopButton: {fileID: 309319093}
+  Player1SidePlateButton: {fileID: 1054191526}
+  Player1TrashButton: {fileID: 1727310075}
   Player1ServeButton: {fileID: 1203883780}
-  Player2ChopButton: {fileID: 0}
-  Player2SidePlateButton: {fileID: 0}
-  Player2TrashButton: {fileID: 0}
-  Player2ServeButton: {fileID: 0}
+  Player2ChopButton: {fileID: 663109405}
+  Player2SidePlateButton: {fileID: 1015998644}
+  Player2TrashButton: {fileID: 1389346737}
+  Player2ServeButton: {fileID: 796182155}
   timerImage: {fileID: 44756591}
 --- !u!1 &796182155
 GameObject:
@@ -8494,15 +8494,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   istimeLeft: 1
   CustomerID: 3
-  CustomerOrder: onion
-  customerOrderID: 1
+  CustomerOrder: Carrot, Mushrooms
+  customerOrderID: 12
   serveButton: {fileID: 309319093}
   player2ServeButton: {fileID: 663109405}
   remarkText: {fileID: 367926647}
   orderText: {fileID: 768024634}
   customer: {fileID: 483712461}
   timeBar: {fileID: 2095452683}
-  WaitingTime: 200
+  WaitingTime: 15
   manager: {fileID: 2049316177}
   bonus:
   - {fileID: 5372669327968019830, guid: 443d2128e95e2254794c9201e70d0c78, type: 3}
@@ -8691,15 +8691,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   istimeLeft: 1
   CustomerID: 1
-  CustomerOrder: onion
-  customerOrderID: 1
+  CustomerOrder: onion, tomato, cucumber
+  customerOrderID: 11
   serveButton: {fileID: 309319093}
-  player2ServeButton: {fileID: 0}
+  player2ServeButton: {fileID: 663109405}
   remarkText: {fileID: 733675601}
   orderText: {fileID: 1817974703}
   customer: {fileID: 1661651107}
   timeBar: {fileID: 2130456368}
-  WaitingTime: 200
+  WaitingTime: 20
   manager: {fileID: 2049316177}
   bonus:
   - {fileID: 5372669327968019830, guid: 443d2128e95e2254794c9201e70d0c78, type: 3}
@@ -11768,10 +11768,10 @@ MonoBehaviour:
   Player1GoToChopButton2: {fileID: 1727310075}
   Player1PickupAgainButton: {fileID: 309319093}
   Player1PickAnotherVegButton: {fileID: 1203883780}
-  Player2GoToChopButton1: {fileID: 0}
-  Player2GoToChopButton2: {fileID: 0}
-  Player2PickupAgainButton: {fileID: 0}
-  Player2PickAnotherVegButton: {fileID: 0}
+  Player2GoToChopButton1: {fileID: 1015998644}
+  Player2GoToChopButton2: {fileID: 1389346737}
+  Player2PickupAgainButton: {fileID: 663109405}
+  Player2PickAnotherVegButton: {fileID: 796182155}
 --- !u!65 &1909287863
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12567,7 +12567,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player1: {fileID: 293500257}
-  player2: {fileID: 0}
+  player2: {fileID: 2051665244}
   Player1ScoreText: {fileID: 994662988}
   Player2ScoreText: {fileID: 770742119}
   Player1TimeLeftText: {fileID: 525007128}
@@ -12578,10 +12578,14 @@ MonoBehaviour:
   player2CurrCountdownValue: 0
   Player1TimeLeft: 100
   Player2TimeLeft: 100
-  agent1: {fileID: 0}
-  agent2: {fileID: 0}
+  agent1: {fileID: 293500258}
+  agent2: {fileID: 2051665245}
   customers:
   - {fileID: 1305367510}
+  - {fileID: 349772772}
+  - {fileID: 1260858720}
+  - {fileID: 268676759}
+  - {fileID: 2131868809}
   isGameOn: 0
 --- !u!4 &2049316178
 Transform:
@@ -12614,7 +12618,7 @@ GameObject:
   - component: {fileID: 2051665244}
   m_Layer: 0
   m_Name: Player2
-  m_TagString: Player1
+  m_TagString: Player2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12655,12 +12659,19 @@ MonoBehaviour:
   choppingBoardFirst: {fileID: 2134168283}
   choppingBoardSecond: {fileID: 794792006}
   VegetableStops:
+  - {fileID: 2134168283}
+  - {fileID: 794792006}
   - {fileID: 271273899}
   - {fileID: 2134693108}
   - {fileID: 2147240832}
   - {fileID: 725389961}
   - {fileID: 54417512}
   - {fileID: 1909287860}
+  - {fileID: 1305367509}
+  - {fileID: 349772771}
+  - {fileID: 1260858719}
+  - {fileID: 268676758}
+  - {fileID: 2131868808}
   Player1Buttons:
   - {fileID: 1015998644}
   - {fileID: 1389346737}
@@ -12668,7 +12679,7 @@ MonoBehaviour:
   - {fileID: 269659891}
   - {fileID: 2074383794}
   - {fileID: 1608808968}
-  Player1ActionButton: {fileID: 309319093}
+  Player1ActionButton: {fileID: 663109405}
   destination: {fileID: 0}
   bowlHoldingPos: {fileID: 1039342351}
   servingPos1: {fileID: 1305367512}
@@ -13250,15 +13261,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   istimeLeft: 1
   CustomerID: 5
-  CustomerOrder: onion
-  customerOrderID: 1
+  CustomerOrder: Tomato, Onion, Broccoli
+  customerOrderID: 17
   serveButton: {fileID: 309319093}
   player2ServeButton: {fileID: 663109405}
   remarkText: {fileID: 446306572}
   orderText: {fileID: 556438052}
   customer: {fileID: 2039134283}
   timeBar: {fileID: 1018497195}
-  WaitingTime: 200
+  WaitingTime: 20
   manager: {fileID: 2049316177}
   bonus:
   - {fileID: 5372669327968019830, guid: 443d2128e95e2254794c9201e70d0c78, type: 3}
@@ -13347,7 +13358,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 3, z: 1}
+  m_Size: {x: 2, y: 3, z: 2}
   m_Center: {x: 0, y: 2, z: 0}
 --- !u!114 &2134168286
 MonoBehaviour:
@@ -13369,10 +13380,10 @@ MonoBehaviour:
   Player1SidePlateButton: {fileID: 1054191526}
   Player1TrashButton: {fileID: 1727310075}
   Player1ServeButton: {fileID: 1203883780}
-  Player2ChopButton: {fileID: 0}
-  Player2SidePlateButton: {fileID: 0}
-  Player2TrashButton: {fileID: 0}
-  Player2ServeButton: {fileID: 0}
+  Player2ChopButton: {fileID: 663109405}
+  Player2SidePlateButton: {fileID: 1015998644}
+  Player2TrashButton: {fileID: 1389346737}
+  Player2ServeButton: {fileID: 796182155}
   timerImage: {fileID: 2125130133}
 --- !u!1 &2134693108
 GameObject:
@@ -13424,10 +13435,10 @@ MonoBehaviour:
   Player1GoToChopButton2: {fileID: 1727310075}
   Player1PickupAgainButton: {fileID: 309319093}
   Player1PickAnotherVegButton: {fileID: 1203883780}
-  Player2GoToChopButton1: {fileID: 0}
-  Player2GoToChopButton2: {fileID: 0}
-  Player2PickupAgainButton: {fileID: 0}
-  Player2PickAnotherVegButton: {fileID: 0}
+  Player2GoToChopButton1: {fileID: 1015998644}
+  Player2GoToChopButton2: {fileID: 1389346737}
+  Player2PickupAgainButton: {fileID: 663109405}
+  Player2PickAnotherVegButton: {fileID: 796182155}
 --- !u!65 &2134693111
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13736,10 +13747,10 @@ MonoBehaviour:
   Player1GoToChopButton2: {fileID: 1727310075}
   Player1PickupAgainButton: {fileID: 309319093}
   Player1PickAnotherVegButton: {fileID: 1203883780}
-  Player2GoToChopButton1: {fileID: 0}
-  Player2GoToChopButton2: {fileID: 0}
-  Player2PickupAgainButton: {fileID: 0}
-  Player2PickAnotherVegButton: {fileID: 0}
+  Player2GoToChopButton1: {fileID: 1015998644}
+  Player2GoToChopButton2: {fileID: 1389346737}
+  Player2PickupAgainButton: {fileID: 663109405}
+  Player2PickAnotherVegButton: {fileID: 796182155}
 --- !u!65 &2147240835
 BoxCollider:
   m_ObjectHideFlags: 0

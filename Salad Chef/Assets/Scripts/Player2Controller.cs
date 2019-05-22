@@ -54,6 +54,9 @@ public class Player2Controller : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
+        ResetVegetableButtons();
+        CloseVegButtons();
+        Player1ActionButton.SetActive(false);
     }
 
     // Update is called once per frame
@@ -75,6 +78,8 @@ public class Player2Controller : MonoBehaviour
                 vegetableSlot2.text = vegetablesCarryingArray[1].name;
             else
                 vegetableSlot2.text = "";
+
+
 
 
 
@@ -132,7 +137,7 @@ public class Player2Controller : MonoBehaviour
                 MoveToTarget();
             }
 
-            else if (Input.GetKeyDown(KeyCode.Colon))
+            else if (Input.GetKeyDown(KeyCode.Semicolon))
             {
                 reachedDestination = false;
                 destination = VegetableStops[0].transform;
@@ -168,13 +173,13 @@ public class Player2Controller : MonoBehaviour
             else if (Input.GetKeyDown(KeyCode.Alpha8) && canServe)
             {
                 reachedDestination = false;
-                destination = VegetableStops[10].transform;
+                destination = VegetableStops[11].transform;
                 MoveToTarget();
             }
             else if (Input.GetKeyDown(KeyCode.Alpha9) && canServe)
             {
                 reachedDestination = false;
-                destination = VegetableStops[10].transform;
+                destination = VegetableStops[12].transform;
                 MoveToTarget();
             }
 
@@ -258,6 +263,7 @@ public class Player2Controller : MonoBehaviour
             orderID[0] = orderCalculationID;
             Debug.Log("picked up vegetable in slot 1: " + veg.name);
             Debug.Log("orderID1: " + orderID[0]);
+            vegetableSlot1.text = veg.name;
             return;
         }
         else if (vegetablesCarryingArray[1] == null)
@@ -269,6 +275,7 @@ public class Player2Controller : MonoBehaviour
             orderID[1] = orderCalculationID;
             Debug.Log("picked up vegetable in slot 2: " + veg.name);
             Debug.Log("orderID2: " + orderID[1]);
+            vegetableSlot2.text = veg.name;
             return;
         }
         else

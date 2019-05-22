@@ -97,7 +97,7 @@ public class CustomerScript : MonoBehaviour
             canPlaceBowl = false;
             float n = (timePast / WaitingTime) * 100;
 
-            if (customerOrderID == player1.saladCombinationID && n >= 30.0f)
+            if (customerOrderID == player2.saladCombinationID && n >= 30.0f)
             {
                 remarkText.text = "Excellent!";
                 bonusEarned = true;
@@ -106,7 +106,7 @@ public class CustomerScript : MonoBehaviour
                 serveButton.transform.GetChild(1).GetComponent<Text>().text = "Take Bonus";
                 serveButton.SetActive(true);
             }
-            else if (customerOrderID == player1.saladCombinationID)
+            else if (customerOrderID == player2.saladCombinationID)
             {
                 remarkText.text = "Good";
                 player2.player1Points++;
