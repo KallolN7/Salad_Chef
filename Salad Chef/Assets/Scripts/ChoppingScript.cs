@@ -20,8 +20,11 @@ public class ChoppingScript : MonoBehaviour
     private GameObject PlayerVeg1, PlayerVeg2;
     private GameObject spawnedBowl;
     private string combination;
+    private int combinationOrderID;
+    private int sidePlateorderID;
     GameObject sidePlateVeg;
     GameObject ChoppingVeg;
+    public Image timerImage;
 
     // Start is called before the first frame update
     void Start()
@@ -133,6 +136,7 @@ public class ChoppingScript : MonoBehaviour
                 player1.isChopping = true;
                 ChoppingVeg = player1.vegetablesCarryingArray[0];
                 combination = combination + ChoppingVeg.name;
+                combinationOrderID = combinationOrderID + player1.orderID[0];
                 Destroy(player1.vegetablesCarryingArray[0]);
                 StartCoroutine(Countdown(5));
                 player1.vegetablesCarryingArray[0] = null;
@@ -142,6 +146,7 @@ public class ChoppingScript : MonoBehaviour
                 player1.isChopping = true;
                 ChoppingVeg = player1.vegetablesCarryingArray[1];
                 combination = combination + ChoppingVeg.name;
+                combinationOrderID = combinationOrderID + player1.orderID[1];
                 Destroy(player1.vegetablesCarryingArray[1]);
                 StartCoroutine(Countdown(5));
                 player1.vegetablesCarryingArray[1] = null;
@@ -160,9 +165,12 @@ public class ChoppingScript : MonoBehaviour
         {
             Debug.Log("Countdown: " + currCountdownValue);
             yield return new WaitForSeconds(1.0f);
+            timerImage.fillAmount = currCountdownValue / countdownValue;
             currCountdownValue--;
         }
+        timerImage.fillAmount = 1;
         Debug.Log(combination);
+        Debug.Log(combinationOrderID);
         Destroy(spawnedBowl);
        spawnedBowl = Instantiate(saladBowl, spawnPos.transform.position, spawnPos.transform.rotation);
         spawnedBowl.name = combination;
@@ -192,10 +200,7 @@ public class ChoppingScript : MonoBehaviour
             Player1SidePlateButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "LCntrl";
             Player1SidePlateButton.transform.GetChild(1).GetComponent<Text>().text = "pickup from side plate";
             Player1SidePlateButton.SetActive(true);
-        }
-        
-
-       
+        }    
     }
 
     public void PickUpSaladBowl()
@@ -203,6 +208,7 @@ public class ChoppingScript : MonoBehaviour
         player1.PickUpSaladBowl(spawnedBowl);
         //player1.saladBowl = spawnedBowl;
         player1.saladCombination = combination;
+        player1.saladCombinationID = combinationOrderID;
         player1.canServe = true;
         saladBowl = null;
         combination = null;
@@ -229,6 +235,8 @@ public class ChoppingScript : MonoBehaviour
                 }
                 canPickupFromSideTable = true;
                 player1.vegetablesCarryingArray[0] = null;
+                sidePlateorderID = player1.orderID[0];
+                player1.orderID[0] = 0;
                 Player1SidePlateButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "LCtrl";
                 Player1SidePlateButton.transform.GetChild(1).GetComponent<Text>().text = "Pickup from Side Plate";
                 Player1SidePlateButton.SetActive(true);
@@ -250,6 +258,8 @@ public class ChoppingScript : MonoBehaviour
                 }
                 canPickupFromSideTable = true;
                 player1.vegetablesCarryingArray[1] = null;
+                sidePlateorderID = player1.orderID[1];
+                player1.orderID[1] = 0;
                 Player1SidePlateButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "LCtrl";
                 Player1SidePlateButton.transform.GetChild(1).GetComponent<Text>().text = "Pickup from Side Plate";
                 Player1SidePlateButton.SetActive(true);
@@ -275,6 +285,8 @@ public class ChoppingScript : MonoBehaviour
                         obj.transform.SetParent(player1.transform);
                         obj.name = player1.vegetablePrefabs[i].name;
                         player1.vegetablesCarryingArray[0] = obj;
+                        player1.orderID[0] = sidePlateorderID;
+                        sidePlateorderID = 0;
                     }
                 }
                 canPickupFromSideTable = false;
@@ -294,6 +306,8 @@ public class ChoppingScript : MonoBehaviour
                         obj.transform.SetParent(player1.transform);
                         obj.name = player1.vegetablePrefabs[i].name;
                         player1.vegetablesCarryingArray[1] = obj;
+                        player1.orderID[1] = sidePlateorderID;
+                        sidePlateorderID = 0;
                     }
                 }
                 canPickupFromSideTable = false;

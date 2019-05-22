@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class VegetableScript : MonoBehaviour
 {
     public int vegId;
+    public int orderCalculationID;
     private PlayerController player1;
     public GameObject Player1GoToChopButton1;
     public GameObject Player1GoToChopButton2;
@@ -53,7 +54,8 @@ public class VegetableScript : MonoBehaviour
             else 
                 Player1PickupAgainButton.SetActive(false);
 
-            player1.SelectVegetable(vegId);
+            player1.SelectVegetable(vegId, orderCalculationID);
+
             return;
         }
         else

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using System;
 
 public class PlayerController : MonoBehaviour
 {
@@ -12,16 +13,23 @@ public class PlayerController : MonoBehaviour
     [HideInInspector]
    public GameObject[] vegetablesCarryingArray = new GameObject[2];
     [HideInInspector]
+    public int[] orderID = new int[2];
+    [HideInInspector]
     public GameObject saladBowl;
     [HideInInspector]
     public string saladCombination;
+    [HideInInspector]
+    public int saladCombinationID;
     [HideInInspector]
     public bool canServe;
     [HideInInspector]
     public bool isChopping;
     [HideInInspector]
     public bool reachedDestination;
+    [HideInInspector]
+    public int player1Points;
 
+    public ManagerScript manager;
     public GameObject[] vegetablePrefabs;
     public GameObject saladBowlPrefab;
     public GameObject choppingBoardFirst, choppingBoardSecond;
@@ -35,6 +43,9 @@ public class PlayerController : MonoBehaviour
     public Transform destination;
     public Transform bowlHoldingPos;
     public Transform servingPos1, servingPos2, servingPos3;
+    public Text vegetableSlot1;
+    public Text vegetableSlot2;
+    public GameObject canvas;
     
     
 
@@ -48,108 +59,130 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
 
-        if (Input.GetKeyDown(KeyCode.Q) && !isChopping)
+        canvas.transform.eulerAngles = new Vector3(0,-90,0);
+
+        if (manager.isGameOn)
         {
-            reachedDestination = false;
-            destination = VegetableStops[2].transform;
-            Player1ActionButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "A";
-            Player1ActionButton.transform.GetChild(1).GetComponent<Text>().text = "Pick Up";
-            MoveToTarget();
+
+            if (vegetablesCarryingArray[0] != null)
+                vegetableSlot1.text = vegetablesCarryingArray[0].name;
+            else
+                vegetableSlot1.text = "";
+
+
+            if (vegetablesCarryingArray[1] != null)
+                vegetableSlot2.text = vegetablesCarryingArray[1].name;
+            else
+                vegetableSlot2.text = "";
+
+
+
+            if (Input.GetKeyDown(KeyCode.Q) && !isChopping)
+            {
+                reachedDestination = false;
+                destination = VegetableStops[2].transform;
+                Player1ActionButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "A";
+                Player1ActionButton.transform.GetChild(1).GetComponent<Text>().text = "Pick Up";
+                MoveToTarget();
+            }
+
+            else if (Input.GetKeyDown(KeyCode.W) && !isChopping)
+            {
+                reachedDestination = false;
+                destination = VegetableStops[3].transform;
+                Player1ActionButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "A";
+                Player1ActionButton.transform.GetChild(1).GetComponent<Text>().text = "Pick Up";
+                MoveToTarget();
+            }
+
+            else if (Input.GetKeyDown(KeyCode.E) && !isChopping)
+            {
+                reachedDestination = false;
+                destination = VegetableStops[4].transform;
+                Player1ActionButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "A";
+                Player1ActionButton.transform.GetChild(1).GetComponent<Text>().text = "Pick Up";
+                MoveToTarget();
+            }
+
+            else if (Input.GetKeyDown(KeyCode.Z) && !isChopping)
+            {
+                reachedDestination = false;
+                destination = VegetableStops[5].transform;
+                Player1ActionButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "A";
+                Player1ActionButton.transform.GetChild(1).GetComponent<Text>().text = "Pick Up";
+                MoveToTarget();
+            }
+
+            else if (Input.GetKeyDown(KeyCode.X) && !isChopping)
+            {
+                reachedDestination = false;
+                destination = VegetableStops[6].transform;
+                Player1ActionButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "A";
+                Player1ActionButton.transform.GetChild(1).GetComponent<Text>().text = "Pick Up";
+                MoveToTarget();
+            }
+
+            else if (Input.GetKeyDown(KeyCode.C) && !isChopping)
+            {
+                reachedDestination = false;
+                destination = VegetableStops[7].transform;
+                Player1ActionButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "A";
+                Player1ActionButton.transform.GetChild(1).GetComponent<Text>().text = "Pick Up";
+                MoveToTarget();
+            }
+
+            else if (Input.GetKeyDown(KeyCode.S))
+            {
+                reachedDestination = false;
+                destination = VegetableStops[0].transform;
+                MoveToTarget();
+            }
+
+            else if (Input.GetKeyDown(KeyCode.D))
+            {
+                reachedDestination = false;
+                destination = VegetableStops[1].transform;
+                MoveToTarget();
+            }
+
+            else if (Input.GetKeyDown(KeyCode.Alpha1) && canServe)
+            {
+                reachedDestination = false;
+                destination = VegetableStops[8].transform;
+                MoveToTarget();
+            }
+
+            else if (Input.GetKeyDown(KeyCode.Alpha2) && canServe)
+            {
+                reachedDestination = false;
+                destination = VegetableStops[9].transform;
+                MoveToTarget();
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha3) && canServe)
+            {
+                reachedDestination = false;
+                destination = VegetableStops[10].transform;
+                MoveToTarget();
+            }
+
+            if (destination == null || agent.transform.position.x != destination.position.x)
+            {
+                return;
+            }
+            else if (agent.transform.position.x == destination.position.x && !reachedDestination)
+            {
+                transform.eulerAngles = new Vector3(transform.eulerAngles.x, destination.transform.eulerAngles.y, transform.eulerAngles.z);
+                reachedDestination = true;
+                //Player1ActionButton.SetActive(true);
+                //CloseVegButtons();
+                //Chopping board options appear.
+            }
+            else
+                return;
+
         }
 
-       else if (Input.GetKeyDown(KeyCode.W) && !isChopping)
-        {
-            reachedDestination = false;
-            destination = VegetableStops[3].transform;
-            Player1ActionButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "A";
-            Player1ActionButton.transform.GetChild(1).GetComponent<Text>().text = "Pick Up";
-            MoveToTarget();
-        }
-
-        else if (Input.GetKeyDown(KeyCode.E) && !isChopping)
-        {
-            reachedDestination = false;
-            destination = VegetableStops[4].transform;
-            Player1ActionButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "A";
-            Player1ActionButton.transform.GetChild(1).GetComponent<Text>().text = "Pick Up";
-            MoveToTarget();
-        }
-
-        else if (Input.GetKeyDown(KeyCode.Z) && !isChopping)
-        {
-            reachedDestination = false;
-            destination = VegetableStops[5].transform;
-            Player1ActionButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "A";
-            Player1ActionButton.transform.GetChild(1).GetComponent<Text>().text = "Pick Up";
-            MoveToTarget();
-        }
-
-        else if (Input.GetKeyDown(KeyCode.X) && !isChopping)
-        {
-            reachedDestination = false;
-            destination = VegetableStops[6].transform;
-            Player1ActionButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "A";
-            Player1ActionButton.transform.GetChild(1).GetComponent<Text>().text = "Pick Up";
-            MoveToTarget();
-        }
-
-        else if (Input.GetKeyDown(KeyCode.C) && !isChopping)
-        {
-            reachedDestination = false;
-            destination = VegetableStops[7].transform;
-            Player1ActionButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "A";
-            Player1ActionButton.transform.GetChild(1).GetComponent<Text>().text = "Pick Up";
-            MoveToTarget();
-        }
-
-        else if (Input.GetKeyDown(KeyCode.S))
-        {
-            reachedDestination = false;
-            destination = VegetableStops[0].transform;
-            MoveToTarget();
-        }
-
-        else if (Input.GetKeyDown(KeyCode.D))
-        {
-            reachedDestination = false;
-            destination = VegetableStops[1].transform;
-            MoveToTarget();
-        }
-
-        else if (Input.GetKeyDown(KeyCode.Alpha1) && canServe)
-        {
-            reachedDestination = false;
-            destination = VegetableStops[8].transform;
-            MoveToTarget();
-        }
-
-        else if (Input.GetKeyDown(KeyCode.Alpha2) && canServe)
-        {
-            reachedDestination = false;
-            destination = VegetableStops[9].transform;
-            MoveToTarget();
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha3) && canServe)
-        {
-            reachedDestination = false;
-            destination = VegetableStops[10].transform;
-            MoveToTarget();
-        }
-
-        if (destination == null || agent.transform.position.x != destination.position.x)
-        {
-            return;
-        }
-        else if(agent.transform.position.x == destination.position.x && !reachedDestination)
-        {
-            transform.eulerAngles = new Vector3(transform.eulerAngles.x, destination.transform.eulerAngles.y, transform.eulerAngles.z);
-            reachedDestination = true;
-            //Player1ActionButton.SetActive(true);
-            //CloseVegButtons();
-            //Chopping board options appear.
-        }
 
     }
 
@@ -160,39 +193,39 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    public void SelectVegetable(int VegID)
+    public void SelectVegetable(int VegID, int orderCalculationID)
     {
         switch (VegID)
         {
             case 0:
-                PickupItem(vegetablePrefabs[0]);
+                PickupItem(vegetablePrefabs[0], orderCalculationID);
                 break;
             case 1:
-                PickupItem(vegetablePrefabs[1]);
+                PickupItem(vegetablePrefabs[1], orderCalculationID);
                 break;
             case 2:
-                PickupItem(vegetablePrefabs[2]);
+                PickupItem(vegetablePrefabs[2], orderCalculationID);
                 break;
             case 3:
-                PickupItem(vegetablePrefabs[3]);
+                PickupItem(vegetablePrefabs[3], orderCalculationID);
                 break;
             case 4:
-                PickupItem(vegetablePrefabs[4]);
+                PickupItem(vegetablePrefabs[4], orderCalculationID);
                 break;
             case 5:
-                PickupItem(vegetablePrefabs[5]);
+                PickupItem(vegetablePrefabs[5], orderCalculationID);
                 break;
             case 6:
-                PickupItem(vegetablePrefabs[6]);
+                PickupItem(vegetablePrefabs[6], orderCalculationID);
                 break;
             case 7:
-                PickupItem(vegetablePrefabs[7]);
+                PickupItem(vegetablePrefabs[7], orderCalculationID);
                 break;
             case 8:
-                PickupItem(vegetablePrefabs[8]);
+                PickupItem(vegetablePrefabs[8], orderCalculationID);
                 break;
             case 9:
-                PickupItem(vegetablePrefabs[9]);
+                PickupItem(vegetablePrefabs[9], orderCalculationID);
                 break;
             default:
                 break;
@@ -202,7 +235,7 @@ public class PlayerController : MonoBehaviour
 
 
 
-    public void PickupItem(GameObject veg)
+    public void PickupItem(GameObject veg, int orderCalculationID)
     {
         if (vegetablesCarryingArray[0] == null)
         {           
@@ -210,7 +243,9 @@ public class PlayerController : MonoBehaviour
             obj.name = veg.name;
             obj.transform.SetParent(transform);
             vegetablesCarryingArray[0] = obj;
+            orderID[0] = orderCalculationID;
             Debug.Log("picked up vegetable in slot 1: " + veg.name);
+            Debug.Log("orderID1: " + orderID[0]);
             return;
         }
         else if (vegetablesCarryingArray[1] == null)
@@ -219,7 +254,9 @@ public class PlayerController : MonoBehaviour
             obj.name = veg.name;
             obj.transform.SetParent(transform);
             vegetablesCarryingArray[1] = obj;
+            orderID[1] = orderCalculationID;
             Debug.Log("picked up vegetable in slot 2: " + veg.name);
+            Debug.Log("orderID2: " + orderID[1]);
             return;
         }
         else
