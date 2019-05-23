@@ -5,37 +5,37 @@ using UnityEngine.UI;
 
 public class ChoppingScript : MonoBehaviour
 {
-    private PlayerController player1;
-    private Player2Controller player2;
-    bool canDrop;
-    bool choppingDone;
-    bool canPickupFromSideTable;
-    float currCountdownValue;
-    public GameObject saladBowl;
-    public GameObject spawnPos;
-    public GameObject sidePlatePos;
+    private PlayerController player1;                         //player1 scripts reference
+    private Player2Controller player2;                       //player2 scripts reference
+    bool canDrop;                                                         //whether player can drop a vegetable to chop or not
+    bool choppingDone;                                             //whether chopping is done or not
+    bool canPickupFromSideTable;                          //whether player can pickup from side table or not
+    float currCountdownValue;                                 //current time left for chopping to finish
+    public GameObject saladBowl;                          // salad bowl object to instantiate once chopping is done 
+    public GameObject spawnPos;                           // salad bowl spawing position
+    public GameObject sidePlatePos;                       // side plate position
 
-    public GameObject Player1ChopButton;
-    public GameObject Player1ChopAgainButton;
-    public GameObject Player1SidePlateButton;
-    public GameObject Player1TrashButton;
-    public GameObject Player1ServeButton;
+    public GameObject Player1ChopButton;                  //display button for chopping
+    public GameObject Player1ChopAgainButton;          //display button for chopping another vegetable in hand
+    public GameObject Player1SidePlateButton;            //display button for dropping at side plate
+    public GameObject Player1TrashButton;                  //display button for trash
+    public GameObject Player1ServeButton;                   //display button for serving customer
     public GameObject Player2ChopButton;
     public GameObject Player2ChopAgainButton;
     public GameObject Player2SidePlateButton;
     public GameObject Player2TrashButton;
     public GameObject Player2ServeButton;
 
-    private GameObject PlayerVeg1, PlayerVeg2;
-    private GameObject Player2Veg1, Player2Veg2;
+    private GameObject PlayerVeg1, PlayerVeg2;                         //reference to the vegetables carried by player
+    private GameObject Player2Veg1, Player2Veg2;                       //reference to the vegetables carried by player
 
-    private GameObject spawnedBowl;
-    private string combination;
-    private int combinationOrderID;
-    private int sidePlateorderID;
-    GameObject sidePlateVeg;
-    GameObject ChoppingVeg;
-    public Image timerImage;
+    private GameObject spawnedBowl;                            //spawned salad bowl
+    private string combination;                                          //combination of salad made
+    private int combinationOrderID;                                 // used for combination calculation when matching with customer order
+    private int sidePlateorderID;                                        //side plate vegetable id
+    GameObject sidePlateVeg;                                            //vegetable kept on side plate 
+    GameObject ChoppingVeg;                                          // vegetable being chopped
+    public Image timerImage;                                              // image to show time left to finish chopping
 
     // Start is called before the first frame update
     void Start()
@@ -47,37 +47,42 @@ public class ChoppingScript : MonoBehaviour
     void Update()
     {
       
+        //drop a vegetable to chop
         if (Input.GetKeyDown(KeyCode.Space) && canDrop)
         {
             Chop();
             canDrop = false;
         }
 
+        //pickup salad bowl after chopping
         else if (Input.GetKeyDown(KeyCode.Space) && choppingDone)
         {
             PickUpSaladBowl();
             choppingDone = false;
         }
+        //chop another vegetable in hand
         else if (Input.GetKeyDown(KeyCode.LeftAlt) && choppingDone)
         {
             Chop();
             canDrop = false;
         }
-
+        //drop a vegetable at side plate
         else if (Input.GetKeyDown(KeyCode.LeftControl) && canDrop && !canPickupFromSideTable)
         {
             DropAtSidePlate();
         }
+        //pickup vegetable from side plate
         else if (Input.GetKeyDown(KeyCode.LeftControl) && canPickupFromSideTable)
         {
             PickUpFromSidePlate();
         }
-
+        //trash salad bowl
         else if (Input.GetKeyDown(KeyCode.LeftShift) && choppingDone)
         {
             Trash();
 
         }
+        //serve salad to customer
         else if (Input.GetKeyDown(KeyCode.Tab) && choppingDone)
         {
             player1.OpenServeButtons();
@@ -134,8 +139,11 @@ public class ChoppingScript : MonoBehaviour
 
             if(player1.vegetablesCarryingArray!= null && player1.destination == transform)
             {
-                player1.CloseVegButtons();
+                player1.CloseVegButtons();                                                                   //close buttons to show all vegetables
                 player1.Player1ActionButton.SetActive(false);
+
+
+                //assigning texts and activating all buttons to display all options a player has.
 
                 Player1ChopButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Space";
                 Player1ChopButton.transform.GetChild(1).GetComponent<Text>().text = "Chop";
@@ -203,6 +211,7 @@ public class ChoppingScript : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        //removing player reference on its exit
         if (other.tag == "Player1")
         {
             canDrop = false;
@@ -229,22 +238,22 @@ public class ChoppingScript : MonoBehaviour
     {
         if (player1.vegetablesCarryingArray != null)
         {
-            if (player1.vegetablesCarryingArray[0] != null)
+            if (player1.vegetablesCarryingArray[0] != null)                                                        //checking if player's first hand is empty or not
             {
                 player1.isChopping = true;
                 ChoppingVeg = player1.vegetablesCarryingArray[0];
-                combination = combination + ChoppingVeg.name;
-                combinationOrderID = combinationOrderID + player1.orderID[0];
+                combination = combination + ChoppingVeg.name;                                                        //assigning name to newly made salad
+                combinationOrderID = combinationOrderID + player1.orderID[0];                             //calculationg combination id
                 Destroy(player1.vegetablesCarryingArray[0]);
                 StartCoroutine(Countdown(5));
                 player1.vegetablesCarryingArray[0] = null;
             }
-            else if (player1.vegetablesCarryingArray[1] != null)
+            else if (player1.vegetablesCarryingArray[1] != null)                                         //checking if player's second hand is empty or not
             {
                 player1.isChopping = true;
                 ChoppingVeg = player1.vegetablesCarryingArray[1];
-                combination = combination + ChoppingVeg.name;
-                combinationOrderID = combinationOrderID + player1.orderID[1];
+                combination = combination + ChoppingVeg.name;                                         //assigning name to newly made salad
+                combinationOrderID = combinationOrderID + player1.orderID[1];             //calculationg combination id
                 Destroy(player1.vegetablesCarryingArray[1]);
                 StartCoroutine(Countdown(5));
                 player1.vegetablesCarryingArray[1] = null;
@@ -252,10 +261,10 @@ public class ChoppingScript : MonoBehaviour
         }          
             else
                 return;
-        //combine vegetable if any previous chopped vegetables present
     }
 
 
+    //chopping countdown
     public IEnumerator Countdown(float countdownValue)
     {
         currCountdownValue = countdownValue;
@@ -270,11 +279,12 @@ public class ChoppingScript : MonoBehaviour
         Debug.Log(combination);
         Debug.Log(combinationOrderID);
         Destroy(spawnedBowl);
-       spawnedBowl = Instantiate(saladBowl, spawnPos.transform.position, spawnPos.transform.rotation);
+       spawnedBowl = Instantiate(saladBowl, spawnPos.transform.position, spawnPos.transform.rotation);                    //instantiating new salad bowl on chopping completion
         spawnedBowl.name = combination;
         choppingDone = true;
         player1.isChopping = false;
 
+        //displaying all options to player once chopping is done
         Player1ChopButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Space";
         Player1ChopButton.transform.GetChild(1).GetComponent<Text>().text = "Pickup Bowl";
         Player1ChopButton.SetActive(true);
@@ -305,6 +315,7 @@ public class ChoppingScript : MonoBehaviour
         }    
     }
 
+    //function to pickup salad bowl
     public void PickUpSaladBowl()
     {
         player1.PickUpSaladBowl(spawnedBowl);
@@ -316,7 +327,7 @@ public class ChoppingScript : MonoBehaviour
         combination = null;
     }
 
-
+    // dropping at side plate function
     public void DropAtSidePlate()
     {
         if (sidePlateVeg == null)
@@ -372,6 +383,7 @@ public class ChoppingScript : MonoBehaviour
             return;
     }
 
+    //function to pickup vegetable from side plate
     public void PickUpFromSidePlate()
     {
         if(sidePlateVeg != null)
@@ -422,6 +434,7 @@ public class ChoppingScript : MonoBehaviour
         }
     }
 
+    //function to trash salad bowl
     public void Trash()
     {
         //destination = VegetableStops[11].transform;

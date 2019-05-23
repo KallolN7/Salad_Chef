@@ -24,7 +24,7 @@ public class Bonus : MonoBehaviour
             manager = FindObjectOfType<ManagerScript>();
     }
 
-
+    //assigning player on trigger enter
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Player1")
@@ -59,13 +59,13 @@ public class Bonus : MonoBehaviour
             switch (bonusID)
             {
                 case 1:
-                    player2.player1Points = player2.player1Points + 10;
+                    player2.player1Points = player2.player1Points + 10;                                                                  //points bonus
                     break;
                 case 2:
-                    manager.player2CurrCountdownValue = manager.player2CurrCountdownValue + 10;
+                    manager.player2CurrCountdownValue = manager.player2CurrCountdownValue + 10;                    //time left bonus
                     break;
                 case 3:
-                    StartCoroutine(IncreaseSpeedTemporarilyForPlayer2());
+                    StartCoroutine(IncreaseSpeedTemporarilyForPlayer2());                           //speed increase bonus
                     break;
 
             }
@@ -77,7 +77,7 @@ public class Bonus : MonoBehaviour
         }
     }
 
-
+    //temporary speed increase bonus
     IEnumerator IncreaseSpeedTemporarily()
     {
         float s = player1.GetComponent<NavMeshAgent>().speed;
@@ -87,7 +87,7 @@ public class Bonus : MonoBehaviour
         player1.GetComponent<NavMeshAgent>().speed = s;
 
     }
-
+   
     IEnumerator IncreaseSpeedTemporarilyForPlayer2()
     {
         float s = player2.GetComponent<NavMeshAgent>().speed;

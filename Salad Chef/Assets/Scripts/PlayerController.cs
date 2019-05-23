@@ -7,43 +7,45 @@ using System;
 
 public class PlayerController : MonoBehaviour
 {
-    Rigidbody rb;
-    NavMeshAgent agent;
+    Rigidbody rb;                                                                                                                   //reference to rigidbody
+    NavMeshAgent agent;                                                                                                  // reference to navmesh agent component
 
     [HideInInspector]
-   public GameObject[] vegetablesCarryingArray = new GameObject[2];
+   public GameObject[] vegetablesCarryingArray = new GameObject[2];                     //array for holding 2 vegetable
     [HideInInspector]
-    public int[] orderID = new int[2];
+    public int[] orderID = new int[2];                                                                                       // array to store order id of each vegetable
     [HideInInspector]
-    public GameObject saladBowl;
+    public GameObject saladBowl;                                                                               //salad bowl carried by player
     [HideInInspector]
-    public string saladCombination;
+    public string saladCombination;                                                                                //salad combination player is carrying at a time
     [HideInInspector]
-    public int saladCombinationID;
+    public int saladCombinationID;                                                                                 //salad id to calculate andmatch with customer order later
     [HideInInspector]
-    public bool canServe;
+    public bool canServe;                                                                                    //if a player  can serve a customer or not
     [HideInInspector]
-    public bool isChopping;
+    public bool isChopping;                                                                                  //if player is chopping or not
+    [HideInInspector] 
+    public bool reachedDestination;                                                                 //if player has reached destination or not
     [HideInInspector]
-    public bool reachedDestination;
-    [HideInInspector]
-    public int player1Points;
+    public int player1Points;                                                                                   //points earned by player
 
     public ManagerScript manager;
-    public GameObject[] vegetablePrefabs;
-    public GameObject saladBowlPrefab;
-    public GameObject choppingBoardFirst, choppingBoardSecond;
-    public GameObject[] VegetableStops;
-    public GameObject[] Player1Buttons;
+    public GameObject[] vegetablePrefabs;                                                              //all vegetable prefabs
+    public GameObject saladBowlPrefab;                                                                   // salad bowl prefab
+    public GameObject choppingBoardFirst, choppingBoardSecond;                  //reference to chopping boards
+    public GameObject[] VegetableStops;                                                              //all destinations specific to vegetables
+    public GameObject[] Player1Buttons;                                                             //all ui buttons
     public GameObject Player1ActionButton;
-    private GameObject selectedChoppingBoard;
+    private GameObject selectedChoppingBoard;                                            //chopping board used by player
     bool canpickup = true;
 
     [HideInInspector]
-    public Transform destination;
-    public Transform bowlHoldingPos;
-    public Transform servingPos1, servingPos2, servingPos3, servingPos4, servingPos5;
-    public Text vegetableSlot1;
+    public Transform destination;                                                                          //current destination to travel to 
+    public Transform bowlHoldingPos;                                                                 
+    public Transform servingPos1, servingPos2, servingPos3, servingPos4, servingPos5;                 //all customer positions to go to
+
+   //to display vegetables carried by player
+    public Text vegetableSlot1;                                                                               
     public Text vegetableSlot2;
     public GameObject canvas;
     
@@ -68,6 +70,7 @@ public class PlayerController : MonoBehaviour
 
         if (manager.isGameOn)
         {
+            //keeping vegetable display canvas at 90 all the time so that player can look at it without any problem
 
             if (vegetablesCarryingArray[0] != null)
                 vegetableSlot1.text = vegetablesCarryingArray[0].name;
@@ -81,7 +84,7 @@ public class PlayerController : MonoBehaviour
                 vegetableSlot2.text = "";
 
 
-
+            //go to pickup a particular vegetable and the buttons to show all options on reaching destination
             if (Input.GetKeyDown(KeyCode.Q) && !isChopping)
             {
                 reachedDestination = false;
@@ -90,7 +93,7 @@ public class PlayerController : MonoBehaviour
                 Player1ActionButton.transform.GetChild(1).GetComponent<Text>().text = "Pick Up";
                 MoveToTarget();
             }
-
+            //go to pickup a particular vegetable and the buttons to show all options on reaching destination
             else if (Input.GetKeyDown(KeyCode.W) && !isChopping)
             {
                 reachedDestination = false;
@@ -99,7 +102,7 @@ public class PlayerController : MonoBehaviour
                 Player1ActionButton.transform.GetChild(1).GetComponent<Text>().text = "Pick Up";
                 MoveToTarget();
             }
-
+            //go to pickup a particular vegetable and the buttons to show all options on reaching destination
             else if (Input.GetKeyDown(KeyCode.E) && !isChopping)
             {
                 reachedDestination = false;
@@ -108,7 +111,7 @@ public class PlayerController : MonoBehaviour
                 Player1ActionButton.transform.GetChild(1).GetComponent<Text>().text = "Pick Up";
                 MoveToTarget();
             }
-
+            //go to pickup a particular vegetable and the buttons to show all options on reaching destination
             else if (Input.GetKeyDown(KeyCode.Z) && !isChopping)
             {
                 reachedDestination = false;
@@ -117,7 +120,7 @@ public class PlayerController : MonoBehaviour
                 Player1ActionButton.transform.GetChild(1).GetComponent<Text>().text = "Pick Up";
                 MoveToTarget();
             }
-
+            //go to pickup a particular vegetable and the buttons to show all options on reaching destination
             else if (Input.GetKeyDown(KeyCode.X) && !isChopping)
             {
                 reachedDestination = false;
@@ -126,7 +129,7 @@ public class PlayerController : MonoBehaviour
                 Player1ActionButton.transform.GetChild(1).GetComponent<Text>().text = "Pick Up";
                 MoveToTarget();
             }
-
+            //go to pickup a particular vegetable and the buttons to show all options on reaching destination
             else if (Input.GetKeyDown(KeyCode.C) && !isChopping)
             {
                 reachedDestination = false;
@@ -136,6 +139,7 @@ public class PlayerController : MonoBehaviour
                 MoveToTarget();
             }
 
+            //go to chopping board and the buttons to show all options on reaching destination
             else if (Input.GetKeyDown(KeyCode.S))
             {
                 reachedDestination = false;
@@ -143,32 +147,29 @@ public class PlayerController : MonoBehaviour
                 MoveToTarget();
             }
 
-            //else if (Input.GetKeyDown(KeyCode.D))
-            //{
-            //    reachedDestination = false;
-            //    destination = VegetableStops[1].transform;
-            //    MoveToTarget();
-            //}
 
+            //go to serve a customer and the buttons to show all options on reaching destination
             else if (Input.GetKeyDown(KeyCode.Alpha1) && canServe)
             {
                 reachedDestination = false;
                 destination = VegetableStops[8].transform;
                 MoveToTarget();
             }
-
+            //go to serve a customer and the buttons to show all options on reaching destination
             else if (Input.GetKeyDown(KeyCode.Alpha2) && canServe)
             {
                 reachedDestination = false;
                 destination = VegetableStops[9].transform;
                 MoveToTarget();
             }
+            //go to serve a customer and the buttons to show all options on reaching destination
             else if (Input.GetKeyDown(KeyCode.Alpha3) && canServe)
             {
                 reachedDestination = false;
                 destination = VegetableStops[10].transform;
                 MoveToTarget();
             }
+            //go to serve a customer and the buttons to show all options on reaching destination
             else if (Input.GetKeyDown(KeyCode.Alpha4) && canServe)
             {
                 reachedDestination = false;
@@ -176,12 +177,14 @@ public class PlayerController : MonoBehaviour
                 MoveToTarget();
 
             }
+            //go to serve a customer and the buttons to show all options on reaching destination
             else if (Input.GetKeyDown(KeyCode.Alpha5) && canServe)
             {
                 reachedDestination = false;
                 destination = VegetableStops[10].transform;
                 MoveToTarget();
             }
+
 
             if (destination == null || agent.transform.position.x != destination.position.x)
             {
@@ -203,13 +206,14 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    //using navmesh agent to move to a particular location 
     void MoveToTarget()
     {       
         Vector3 target = new Vector3(destination.position.x, destination.position.y, destination.position.z);
         agent.SetDestination(target);      
     }
 
-
+    //function to select particular vegetable
     public void SelectVegetable(int VegID, int orderCalculationID)
     {
         switch (VegID)
@@ -251,7 +255,7 @@ public class PlayerController : MonoBehaviour
 
 
 
-
+    //pickup vegetable and instantiating it
     public void PickupItem(GameObject veg, int orderCalculationID)
     {
         if (vegetablesCarryingArray[0] == null)
@@ -285,17 +289,15 @@ public class PlayerController : MonoBehaviour
     {
         if (vegetablesCarryingArray[0] != null)
         {
-            // Instantiate(vegetablesCarryingArray[0], selectedChoppingBoard.transform);
             Destroy(vegetablesCarryingArray[0]);
         }
         else
         {
-            //Instantiate(vegetablesCarryingArray[1], selectedChoppingBoard.transform);
             Destroy(vegetablesCarryingArray[1]);
         }
     }
 
-
+    //pickup salad bowl
     public void PickUpSaladBowl(GameObject bowl)
     {
         bowl.transform.position = bowlHoldingPos.position;
@@ -303,6 +305,7 @@ public class PlayerController : MonoBehaviour
         saladBowl = bowl;
     }
 
+    //serve a customer
     public void ServeCustomer(int customer)
     {    
         switch (customer)
@@ -340,6 +343,7 @@ public class PlayerController : MonoBehaviour
         }   
     }
 
+    //reset all ui buttons to show all vegetable options
     public void ResetVegetableButtons()
     {
         Player1Buttons[0].transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Q";
@@ -375,6 +379,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    //show all buttons to serve customer
     public void OpenServeButtons()
     {
         Player1Buttons[0].transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "1";

@@ -20,11 +20,7 @@ public class VegetableScript : MonoBehaviour
     bool canpickup = false;
     bool player2pickup;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+   
 
     // Update is called once per frame
     void Update()
@@ -35,6 +31,7 @@ public class VegetableScript : MonoBehaviour
             Debug.Log("reset");
         }
 
+         //what to do when player has picked up a vegetable
         if (Input.GetKeyDown(KeyCode.A) && canpickup)
         {
             player1.CloseVegButtons();
@@ -102,7 +99,7 @@ public class VegetableScript : MonoBehaviour
             return;
     }
 
-
+    //assigning player on trigger enter
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player1")

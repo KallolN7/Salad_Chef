@@ -5,7 +5,7 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 using System;
 
-public class Player2Controller : MonoBehaviour
+public class Player2Controller : MonoBehaviour                                                            //please refer to PlayerController script. Both these scripts are almost same. That script is explained by comments
 {
     Rigidbody rb;
     NavMeshAgent agent;

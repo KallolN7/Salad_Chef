@@ -8,27 +8,31 @@ using UnityEngine.SceneManagement;
 
 public class ManagerScript : MonoBehaviour
 {
+
+
+    //variables 
     public PlayerController player1;
     public Player2Controller player2;
-    public Text Player1ScoreText;
-    public Text Player2ScoreText;
+    public Text Player1ScoreText;             //displaying player score
+    public Text Player2ScoreText;             //displaying player score
     public Text Player1TimeLeftText;
     public Text Player2TimeLeftText;
-    public Image Player1TimeLeftImage;
-    public Image Player2TimeLeftImage;
-    public float player1CurrCountdownValue;
-    public float player2CurrCountdownValue;
-    public int Player1TimeLeft;
-    public int Player2TimeLeft;
-    public NavMeshAgent agent1;
-    public NavMeshAgent agent2;
-    public CustomerScript[] customers;
-    public bool isGameOn;
-    int customerLeft;
-    private int[] highscore = new int[10];
-    int[] oldHighScore = new int[10];
-    public Text[] highscoreTexts;
-    public GameObject highscorePanel;
+    public Image Player1TimeLeftImage;               //displaying player time left
+    public Image Player2TimeLeftImage;               //displaying player time left
+    public float player1CurrCountdownValue;       //variable for current player time left
+    public float player2CurrCountdownValue;        //variable for current player time left
+    public int Player1TimeLeft;                                 //variable for current player time left
+    public int Player2TimeLeft;                                  //variable for current player time left
+    public NavMeshAgent agent1;                            //navMesh agent  in player
+    public NavMeshAgent agent2;                            //navMesh agent  in player 
+    public CustomerScript[] customers;                   //total customers
+    public bool isGameOn;                                        //checking whether game is over or not
+    int customerLeft;                                                 //No. of customers left  
+
+    private int[] highscore = new int[10];              //storing the latest 10 highscore
+    int[] oldHighScore = new int[10];                      //storing the 10 highscore from last round
+    public Text[] highscoreTexts;                             //texts to show highscore
+    public GameObject highscorePanel;               // highscore gameobject
 
     
 
@@ -42,6 +46,8 @@ public class ManagerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        //if game is not on, then start it
         if(Input.GetKeyDown(KeyCode.Space) && !isGameOn)
         {
             isGameOn = true;
@@ -58,13 +64,14 @@ public class ManagerScript : MonoBehaviour
             }
         }
 
+        //else if game is over, restart it
         else if(Input.GetKeyDown(KeyCode.Escape) && !isGameOn)
         {
             Scene scene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(scene.name);
         }
 
-
+        //check to see how many customers left
         if(customers[0].istimeLeft == false && customers[1].istimeLeft == false && customers[2].istimeLeft == false && customers[3].istimeLeft ==false && customers[4].istimeLeft ==false )
         {
             player1.CloseVegButtons();
@@ -77,13 +84,12 @@ public class ManagerScript : MonoBehaviour
             isGameOn = false;
             DisplayHighScore();
             highscorePanel.SetActive(true);
-            //show highscore
-            //option to restart
+
         }
 
     }
 
-
+    //countdown timer for Player1
     public IEnumerator Player1Countdown(float countdownValue)
     {
         player1CurrCountdownValue = countdownValue;
@@ -104,7 +110,7 @@ public class ManagerScript : MonoBehaviour
       
     }
 
-
+    //countdown timer for Player2
     public IEnumerator Player2Countdown(float countdownValue)
     {
         player2CurrCountdownValue = countdownValue;
@@ -124,7 +130,7 @@ public class ManagerScript : MonoBehaviour
 
     }
 
-
+    //highscore display function
     public void DisplayHighScore()
     {
         if (Convert.ToInt32(Player1ScoreText.text) > Convert.ToInt32(Player2ScoreText.text))
@@ -140,7 +146,7 @@ public class ManagerScript : MonoBehaviour
 
     }
 
-
+    //highscore calculation for top 10
     public void CalculateHighScore(int score)
     {
 
@@ -193,7 +199,7 @@ public class ManagerScript : MonoBehaviour
         SetNewHighScore();
     }
 
-
+    //get 10 highscore from previous rounds 
     public void GetOldHighScore()
     {
         oldHighScore[0] = PlayerPrefs.GetInt(" HighScore0", 0);
@@ -208,6 +214,7 @@ public class ManagerScript : MonoBehaviour
         oldHighScore[9] = PlayerPrefs.GetInt(" HighScore9", 0);
     }
 
+    //set new highscore, if any, after latest round
     public void SetNewHighScore()
     {
         PlayerPrefs.SetInt(" HighScore0", highscore[0]);

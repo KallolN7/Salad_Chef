@@ -6,25 +6,28 @@ using UnityEngine.AI;
 
 public class CustomerScript : MonoBehaviour
 {
-    public bool istimeLeft = true;
-    public int CustomerID;
-    public string CustomerOrder;
-    public int customerOrderID;
-    private bool canPlaceBowl;
-    public GameObject serveButton;
+    public bool istimeLeft = true;                      //is customer's waiting time over or not
+    public int CustomerID;                              //customer id to verify user
+    public string CustomerOrder;                   //order made by customer
+    public int customerOrderID;                       //customer order id to calculate and match with salad served
+    private bool canPlaceBowl;                        // if player can serve this customer or not
+
+    //buttons to serve custmer
+    public GameObject serveButton;              
     public GameObject player2ServeButton;
-    private PlayerController player1;
+
+    private PlayerController player1;                   //reference to player script
     private Player2Controller player2;
-    private float currCountdownValue;
-    public Text remarkText;
-    public Text orderText;
-    public GameObject customer;
-    public Image timeBar;
+    private float currCountdownValue;              //time left ot serve
+    public Text remarkText;                                 //text to customer reaction on recieving or not recieving salad
+    public Text orderText;                                       //to display custmer order
+    public GameObject customer;                     //customer gameobject
+    public Image timeBar;                                    //to show time left
     public int WaitingTime;
-    public ManagerScript manager;
+    public ManagerScript manager;                   // reference to manager script
     private float timePast;
     Coroutine co;
-    public GameObject[] bonus;
+    public GameObject[] bonus;                         //bonus prefabs
     public Transform[] bonusSpawnPos;
     int randomBonus;
     int randomArea;
@@ -40,6 +43,8 @@ public class CustomerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        //serve customer and see the reation
         if (Input.GetKeyDown(KeyCode.Tab) && canPlaceBowl)
         {
             player1.ServeCustomer(CustomerID);
@@ -84,6 +89,7 @@ public class CustomerScript : MonoBehaviour
             }
         }
 
+        //on bonus earned
         else if (Input.GetKeyDown(KeyCode.BackQuote) && bonusEarned)
         {
             Vector3 target = new Vector3(bonusSpawnPos[randomArea].position.x, bonusSpawnPos[randomArea].position.y, bonusSpawnPos[randomArea].position.z);
@@ -150,7 +156,7 @@ public class CustomerScript : MonoBehaviour
         if (other.tag == "Player1")
         {
             canPlaceBowl = true;
-            player1 = other.GetComponent<PlayerController>();
+            player1 = other.GetComponent<PlayerController>();                         //assigned player object
             if(player1.destination == transform)
             {
                 serveButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Tab";
@@ -202,7 +208,7 @@ public class CustomerScript : MonoBehaviour
         co = StartCoroutine(WaitingCountdown(WaitingTime, 1));
     }
 
-
+    //countdown to depict waiting time for customer
     public IEnumerator WaitingCountdown(float countdownValue, float timeRate)
     {
         orderText.text = CustomerOrder;
@@ -226,7 +232,7 @@ public class CustomerScript : MonoBehaviour
         }
 
     }
-
+    //spawning random bonus
     public void SpawnRandomBonus()
     {
         randomBonus = Random.Range(0, 3);
