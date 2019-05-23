@@ -40,12 +40,12 @@ public class VegetableScript : MonoBehaviour
             player1.CloseVegButtons();
 
             Player1GoToChopButton1.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "S";
-            Player1GoToChopButton1.transform.GetChild(1).GetComponent<Text>().text = "Go to Chopping Board1";
+            Player1GoToChopButton1.transform.GetChild(1).GetComponent<Text>().text = "Go to Chopping Board";
             Player1GoToChopButton1.SetActive(true);
 
-            Player1GoToChopButton2.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "D";
-            Player1GoToChopButton2.transform.GetChild(1).GetComponent<Text>().text = "Go to Chopping Board2";
-            Player1GoToChopButton2.SetActive(true);
+            //Player1GoToChopButton2.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "D";
+            //Player1GoToChopButton2.transform.GetChild(1).GetComponent<Text>().text = "Go to Chopping Board2";
+            //Player1GoToChopButton2.SetActive(true);
 
             Player1PickAnotherVegButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Esc";
             Player1PickAnotherVegButton.transform.GetChild(1).GetComponent<Text>().text = "Pick other Vegetable";
@@ -76,12 +76,12 @@ public class VegetableScript : MonoBehaviour
 
             player2.CloseVegButtons();
 
-            Player2GoToChopButton1.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = ";";
-            Player2GoToChopButton1.transform.GetChild(1).GetComponent<Text>().text = "Go to Chopping Board1";
-            Player2GoToChopButton1.SetActive(true);
+            //Player2GoToChopButton1.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = ";";
+            //Player2GoToChopButton1.transform.GetChild(1).GetComponent<Text>().text = "Go to Chopping Board1";
+            //Player2GoToChopButton1.SetActive(true);
 
             Player2GoToChopButton2.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "'";
-            Player2GoToChopButton2.transform.GetChild(1).GetComponent<Text>().text = "Go to Chopping Board2";
+            Player2GoToChopButton2.transform.GetChild(1).GetComponent<Text>().text = "Go to Chopping Board";
             Player2GoToChopButton2.SetActive(true);
 
             Player2PickAnotherVegButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Backspace";

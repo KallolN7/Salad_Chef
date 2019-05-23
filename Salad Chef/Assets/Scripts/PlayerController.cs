@@ -143,12 +143,12 @@ public class PlayerController : MonoBehaviour
                 MoveToTarget();
             }
 
-            else if (Input.GetKeyDown(KeyCode.D))
-            {
-                reachedDestination = false;
-                destination = VegetableStops[1].transform;
-                MoveToTarget();
-            }
+            //else if (Input.GetKeyDown(KeyCode.D))
+            //{
+            //    reachedDestination = false;
+            //    destination = VegetableStops[1].transform;
+            //    MoveToTarget();
+            //}
 
             else if (Input.GetKeyDown(KeyCode.Alpha1) && canServe)
             {

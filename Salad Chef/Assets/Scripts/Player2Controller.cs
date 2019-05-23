@@ -137,12 +137,12 @@ public class Player2Controller : MonoBehaviour
                 MoveToTarget();
             }
 
-            else if (Input.GetKeyDown(KeyCode.Semicolon))
-            {
-                reachedDestination = false;
-                destination = VegetableStops[0].transform;
-                MoveToTarget();
-            }
+            //else if (Input.GetKeyDown(KeyCode.Semicolon))
+            //{
+            //    reachedDestination = false;
+            //    destination = VegetableStops[0].transform;
+            //    MoveToTarget();
+            //}
 
             else if (Input.GetKeyDown(KeyCode.Quote))
             {

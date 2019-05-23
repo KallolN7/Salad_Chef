@@ -16,10 +16,12 @@ public class ChoppingScript : MonoBehaviour
     public GameObject sidePlatePos;
 
     public GameObject Player1ChopButton;
+    public GameObject Player1ChopAgainButton;
     public GameObject Player1SidePlateButton;
     public GameObject Player1TrashButton;
     public GameObject Player1ServeButton;
     public GameObject Player2ChopButton;
+    public GameObject Player2ChopAgainButton;
     public GameObject Player2SidePlateButton;
     public GameObject Player2TrashButton;
     public GameObject Player2ServeButton;
@@ -277,6 +279,10 @@ public class ChoppingScript : MonoBehaviour
         Player1ChopButton.transform.GetChild(1).GetComponent<Text>().text = "Pickup Bowl";
         Player1ChopButton.SetActive(true);
 
+        Player1ChopAgainButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "LAlt";
+        Player1ChopAgainButton.transform.GetChild(1).GetComponent<Text>().text = "Chop Again";
+        Player1ChopAgainButton.SetActive(true);
+
         Player1TrashButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "LShift";
         Player1TrashButton.transform.GetChild(1).GetComponent<Text>().text = "Trash";
         Player1TrashButton.SetActive(true);
@@ -484,6 +490,10 @@ public class ChoppingScript : MonoBehaviour
         Player2ChopButton.transform.GetChild(1).GetComponent<Text>().text = "Pickup Bowl";
         Player2ChopButton.SetActive(true);
 
+        Player2ChopAgainButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "RAlt";
+        Player2ChopAgainButton.transform.GetChild(1).GetComponent<Text>().text = "Chop Again";
+        Player2ChopAgainButton.SetActive(true);
+
         Player2TrashButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "RShift";
         Player2TrashButton.transform.GetChild(1).GetComponent<Text>().text = "Trash";
         Player2TrashButton.SetActive(true);
@@ -563,7 +573,7 @@ public class ChoppingScript : MonoBehaviour
                 player2.vegetablesCarryingArray[1] = null;
                 sidePlateorderID = player1.orderID[1];
                 player2.orderID[1] = 0;
-                Player2SidePlateButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "LCtrl";
+                Player2SidePlateButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "RCtrl";
                 Player2SidePlateButton.transform.GetChild(1).GetComponent<Text>().text = "Pickup from Side Plate";
                 Player2SidePlateButton.SetActive(true);
                 Debug.Log("sidePlateVeg plate veg: " + sidePlateVeg);
