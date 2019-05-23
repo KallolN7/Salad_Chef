@@ -50,6 +50,8 @@ public class CustomerScript : MonoBehaviour
             if (customerOrderID == player1.saladCombinationID && n >= 30.0f)
             {
                 remarkText.text = "Excellent!";
+                player1.player1Points++;
+                manager.Player1ScoreText.text = "Player1 Score: " + player1.player1Points.ToString();
                 bonusEarned = true;
                 SpawnRandomBonus();
                 serveButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "`";
@@ -100,6 +102,8 @@ public class CustomerScript : MonoBehaviour
             if (customerOrderID == player2.saladCombinationID && n >= 30.0f)
             {
                 remarkText.text = "Excellent!";
+                player2.player1Points++;
+                manager.Player2ScoreText.text = player2.player1Points.ToString() + " :Player2 Score";
                 bonusEarned = true;
                 SpawnRandomBonus();
                 serveButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "=";

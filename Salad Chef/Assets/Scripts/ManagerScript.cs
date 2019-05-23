@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,12 +25,18 @@ public class ManagerScript : MonoBehaviour
     public CustomerScript[] customers;
     public bool isGameOn;
     int customerLeft;
+    private int[] highscore = new int[10];
+    int[] oldHighScore = new int[10];
+    public Text[] highscoreTexts;
+    public GameObject highscorePanel;
+
+    
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        GetOldHighScore();
     }
 
     // Update is called once per frame
@@ -68,7 +75,8 @@ public class ManagerScript : MonoBehaviour
             player1.Player1ActionButton.transform.GetChild(1).GetComponent<Text>().text = "Restart";
             player1.Player1ActionButton.SetActive(true);
             isGameOn = false;
-           
+            DisplayHighScore();
+            highscorePanel.SetActive(true);
             //show highscore
             //option to restart
         }
@@ -117,5 +125,101 @@ public class ManagerScript : MonoBehaviour
     }
 
 
+    public void DisplayHighScore()
+    {
+        if (Convert.ToInt32(Player1ScoreText.text) > Convert.ToInt32(Player2ScoreText.text))
+        {
+            CalculateHighScore(Convert.ToInt32(Player2ScoreText.text));
+            CalculateHighScore(Convert.ToInt32(Player1ScoreText.text));
+        }
+ else
+        {
+            CalculateHighScore(Convert.ToInt32(Player1ScoreText.text));
+            CalculateHighScore(Convert.ToInt32(Player2ScoreText.text));
+        }
+
+    }
+
+
+    public void CalculateHighScore(int score)
+    {
+
+        for (int i = 0; i < 10; i++)
+        {
+            if (score <= oldHighScore[i])
+            {
+                highscore[i] = oldHighScore[i];
+            }
+
+            else if (score > oldHighScore[i]) //((Convert.ToInt32(Player1ScoreText.text) > oldHighScore[i]) || Convert.ToInt32(Player2ScoreText.text) > oldHighScore[i])
+            {
+                highscore[i] = score;
+            }
+        }
+
+        for (int j = 1; j < 10; j++)
+        {
+            if (score == highscore[j])
+            {
+                highscore[j] = oldHighScore[j - 1];
+            }
+            else if (score == highscore[0])
+            {
+                highscore[j] = oldHighScore[j - 1];
+            }
+        }
+
+        for (int a = 1; a < 10; a++)
+        {
+            if (a + 1 >= 10)
+            {
+                if (highscore[a - 1] == oldHighScore[a - 1] && highscore[a] > score)
+                    highscore[9] = score;
+            }
+            else if (a - 1 >= 0 && a + 1 < 10)
+            {
+                if (highscore[a - 1] == oldHighScore[a - 1] && highscore[a] > score && highscore[a + 1] < score)
+                    highscore[a] = score;
+            }
+
+        }
+
+
+        for (int k = 0; k < 10; k++)
+        {
+            highscoreTexts[k].text = highscore[k].ToString();
+        }
+
+        SetNewHighScore();
+    }
+
+
+    public void GetOldHighScore()
+    {
+        oldHighScore[0] = PlayerPrefs.GetInt(" HighScore0", 0);
+        oldHighScore[1] = PlayerPrefs.GetInt(" HighScore1", 0);
+        oldHighScore[2] = PlayerPrefs.GetInt(" HighScore2", 0);
+        oldHighScore[3] = PlayerPrefs.GetInt(" HighScore3", 0);
+        oldHighScore[4] = PlayerPrefs.GetInt(" HighScore4", 0);
+        oldHighScore[5] = PlayerPrefs.GetInt(" HighScore5", 0);
+        oldHighScore[6] = PlayerPrefs.GetInt(" HighScore6", 0);
+        oldHighScore[7] = PlayerPrefs.GetInt(" HighScore7", 0);
+        oldHighScore[8] = PlayerPrefs.GetInt(" HighScore8", 0);
+        oldHighScore[9] = PlayerPrefs.GetInt(" HighScore9", 0);
+    }
+
+    public void SetNewHighScore()
+    {
+        PlayerPrefs.SetInt(" HighScore0", highscore[0]);
+        PlayerPrefs.GetInt(" HighScore1", highscore[1]);
+         PlayerPrefs.GetInt(" HighScore2", highscore[2]);
+        PlayerPrefs.GetInt(" HighScore3", highscore[3]);
+        PlayerPrefs.GetInt(" HighScore4", highscore[4]);
+        PlayerPrefs.GetInt(" HighScore5", highscore[5]);
+        PlayerPrefs.GetInt(" HighScore6", highscore[6]);
+        PlayerPrefs.GetInt(" HighScore7", highscore[7]);
+        PlayerPrefs.GetInt(" HighScore8", highscore[8]);
+        PlayerPrefs.GetInt(" HighScore9", highscore[9]);
+    }
 
 }
